@@ -1,0 +1,45 @@
+@startuml
+
+entity "User" as user {
+    +id : Integer
+    username : String
+    password : String
+}
+
+entity "Book" as book {
+    +id : Integer
+    title : String
+    year : Integer
+    loaned out : Boolean
+    loan time : LocalDateTime
+    genre : Genre[{genre}]
+
+}
+
+entity "Genre" as genre {
+    +id : Integer
+    genre : String
+}
+
+entity "Library" as library {
+    +id : Integer
+    name : String
+    address : String
+    employees : Employee[{employee}]
+}
+
+entity "Employee" as employee {
+    +id : Integer
+    age : Integer
+    name : String
+    gender : String{[M, F]}
+    email : String
+}
+
+' Relationships
+user "1" --o "0..*" book
+book "0..*" --o "0..*" genre
+library "1" --o "0..*" employee
+library "1" --o "0..*" book
+
+@enduml
