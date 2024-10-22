@@ -36,7 +36,7 @@ public class Book {
     @Setter
     @Enumerated(EnumType.STRING)
     @Column(name = "genre", nullable = true)
-    private String genre;
+    private Genre genre;
 
     @Setter
     @Column(name = "loaned_out_date", nullable = true)
@@ -52,7 +52,7 @@ public class Book {
     @JoinColumn(name = "User_id", nullable = true)
     private User user;
 
-    public Book(String title, Integer year, boolean loanedOut, LocalDateTime loanedOutDate, Set<Genre> genres) {
+    public Book(String title, Integer year, boolean loanedOut, LocalDateTime loanedOutDate, Genre genre) {
         this.title = title;
         this.year = year;
         this.loanedOut = loanedOut;
@@ -75,6 +75,85 @@ public class Book {
         this.loanedOut = bookDTO.isLoanedOut();
         this.loanedOutDate = bookDTO.getLoanedOutDate();
         this.genre = bookDTO.getGenre();
-        this.library = bookDTO.getLibrary();
+    }
+
+    public enum Genre {
+        FICTION,
+        NON_FICTION,
+        SCIENCE_FICTION,
+        FANTASY,
+        MYSTERY,
+        THRILLER,
+        ROMANCE,
+        HORROR,
+        BIOGRAPHY,
+        AUTOBIOGRAPHY,
+        HISTORY,
+        COOKBOOK,
+        ART,
+        SCIENCE,
+        MATHEMATICS,
+        PHILOSOPHY,
+        RELIGION,
+        SELF_HELP,
+        TRAVEL,
+        GUIDE,
+        DIARY,
+        JOURNAL,
+        POETRY,
+        PLAY,
+        COMIC,
+        GRAPHIC_NOVEL,
+        FAIRY_TALE,
+        FOLKLORE,
+        MYTHOLOGY,
+        LEGEND,
+        ESSAY,
+        SPEECH,
+        MEMOIR,
+        CRIME,
+        DRAMA,
+        SATIRE,
+        HUMOR,
+        PARODY,
+        FABLE,
+        ALLEGORY,
+        PROPAGANDA,
+        TRAGEDY,
+        COMEDY,
+        ROMANTIC_COMEDY,
+        ACTION,
+        ADVENTURE,
+        MYSTERY_ADVENTURE,
+        HORROR_ADVENTURE,
+        ROMANTIC_ADVENTURE,
+        SCIENCE_FICTION_ADVENTURE,
+        FANTASY_ADVENTURE,
+        HISTORICAL_FICTION,
+        HISTORICAL_ROMANCE,
+        HISTORICAL_ADVENTURE,
+        HISTORICAL_MYSTERY,
+        HISTORICAL_THRILLER,
+        HISTORICAL_FANTASY,
+        HISTORICAL_HORROR,
+        HISTORICAL_BIOGRAPHY,
+        HISTORICAL_AUTOBIOGRAPHY,
+        HISTORICAL_DIARY,
+        HISTORICAL_JOURNAL,
+        HISTORICAL_POETRY,
+        HISTORICAL_PLAY,
+        HISTORICAL_COMIC,
+        HISTORICAL_GRAPHIC_NOVEL,
+        HISTORICAL_FAIRY_TALE,
+        HISTORICAL_FOLKLORE,
+        HISTORICAL_MYTHOLOGY,
+        HISTORICAL_LEGEND,
+        HISTORICAL_ESSAY,
+        HISTORICAL_SPEECH,
+        HISTORICAL_MEMOIR,
+        HISTORICAL_CRIME,
+        HISTORICAL_DRAMA,
+        HISTORICAL_SATIRE,
+        HISTORICAL_HUMOR
     }
 }
