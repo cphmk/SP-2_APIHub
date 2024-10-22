@@ -1,5 +1,6 @@
 package dat.dtos;
 
+import dat.entities.Employee;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,11 +14,18 @@ public class EmployeeDTO {
     private Integer id;
     private String employeeName;
     private Integer employeeAge;
-    private String employeeGender;
+    private Employee.EmployeeGender employeeGender;
     private String employeeEmail;
     private Set<LibraryDTO> libraries = new HashSet<>();
 
-    public EmployeeDTO(String employeeName, Integer employeeAge, String employeeGender, String employeeEmail) {
+    public EmployeeDTO(Employee employee) {
+        this.employeeName = employeeName;
+        this.employeeAge = employeeAge;
+        this.employeeGender = employeeGender;
+        this.employeeEmail = employeeEmail;
+    }
+
+    public EmployeeDTO(String employeeName, Integer employeeAge, Employee.EmployeeGender employeeGender, String employeeEmail) {
         this.employeeName = employeeName;
         this.employeeAge = employeeAge;
         this.employeeGender = employeeGender;

@@ -43,7 +43,6 @@ public class HibernateConfig {
     private static void getAnnotationConfiguration(Configuration configuration) {
         configuration.addAnnotatedClass(Book.class);
         configuration.addAnnotatedClass(Employee.class);
-        configuration.addAnnotatedClass(Genre.class);
         configuration.addAnnotatedClass(Library.class);
         configuration.addAnnotatedClass(User.class);
         configuration.addAnnotatedClass(Role.class);
