@@ -24,7 +24,7 @@ services:
       # start_period: 10s  # Remove or comment this line if unsupported
 
   libraryAPI:
-    image: cphmk/library_api/:latest
+    image: cphmk/library_api:latest  # Corrected line
     container_name: libraryAPI
     ports:
       - "8080:8080"
