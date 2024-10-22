@@ -54,8 +54,8 @@ public class Library {
     public Library(LibraryDTO libraryDTO) {
         this.libraryName = libraryDTO.getLibraryName();
         this.libraryAddress = libraryDTO.getLibraryAddress();
-        this.books = libraryDTO.getBooks();
         this.employees = libraryDTO.getEmployees();
+        this.books = libraryDTO.getBooks();
         this.users = libraryDTO.getUsers();
     }
 }

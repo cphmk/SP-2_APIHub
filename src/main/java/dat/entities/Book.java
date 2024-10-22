@@ -34,6 +34,11 @@ public class Book {
     private boolean loanedOut;
 
     @Setter
+    @Enumerated(EnumType.STRING)
+    @Column(name = "genre", nullable = true)
+    private String genre;
+
+    @Setter
     @Column(name = "loaned_out_date", nullable = true)
     private LocalDateTime loanedOutDate;
 
@@ -47,20 +52,12 @@ public class Book {
     @JoinColumn(name = "User_id", nullable = true)
     private User user;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "Books_Genres",
-            joinColumns = @JoinColumn(name = "Book_id"),
-            inverseJoinColumns = @JoinColumn(name = "Genre_id")
-    )
-    private Set<Genre> genres = new HashSet<>();
-
     public Book(String title, Integer year, boolean loanedOut, LocalDateTime loanedOutDate, Set<Genre> genres) {
         this.title = title;
         this.year = year;
         this.loanedOut = loanedOut;
         this.loanedOutDate = loanedOutDate;
-        this.genres = genres;
+        this.genre = genre;
     }
 
     public Book(String title, Integer year, boolean loanedOut, LocalDateTime loanedOutDate, Library library, User user) {
@@ -77,8 +74,7 @@ public class Book {
         this.year = bookDTO.getYear();
         this.loanedOut = bookDTO.isLoanedOut();
         this.loanedOutDate = bookDTO.getLoanedOutDate();
-        this.genres = bookDTO.getGenres();
+        this.genre = bookDTO.getGenre();
         this.library = bookDTO.getLibrary();
     }
-
 }
