@@ -15,7 +15,6 @@ public class Populator {
 
         EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory();
 
-        //Set<Genre> genres = getGenres();
         Set<Employee> employees1 = getEmployees1();
         Set<Employee> employees2 = getEmployees2();
         Set<Book> books = getBooks();
@@ -40,32 +39,6 @@ public class Populator {
 
     }
 
-    /*private static Set<Genre> getGenres() {
-        Set<Genre> genres = new HashSet<>();
-
-        genres.add(new Genre("Fiction"));
-        genres.add(new Genre("Non-fiction"));
-        genres.add(new Genre("Mystery"));
-        genres.add(new Genre("Thriller"));
-        genres.add(new Genre("Romance"));
-        genres.add(new Genre("Fantasy"));
-        genres.add(new Genre("Science Fiction"));
-        genres.add(new Genre("Historical Fiction"));
-        genres.add(new Genre("Horror"));
-        genres.add(new Genre("Adventure"));
-        genres.add(new Genre("Young Adult"));
-        genres.add(new Genre("Children's Literature"));
-        genres.add(new Genre("Biography"));
-        genres.add(new Genre("Autobiography"));
-        genres.add(new Genre("Self-help"));
-        genres.add(new Genre("Memoir"));
-        genres.add(new Genre("Dystopian"));
-        genres.add(new Genre("Classics"));
-        genres.add(new Genre("Graphic Novel"));
-        genres.add(new Genre("Poetry"));
-
-        return genres;
-    }*/
 
     private static Set<Employee> getEmployees1() {
         Set<Employee> employees = new HashSet<>();
