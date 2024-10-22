@@ -32,7 +32,7 @@ public class Employee {
     @Setter
     @Enumerated(EnumType.STRING)
     @Column(name = "Employee_gender", nullable = false)
-    private String employeeGender;
+    private EmployeeGender employeeGender;
 
     @Setter
     @Column(name = "Employee_email", nullable = false)
@@ -43,7 +43,7 @@ public class Employee {
     @JoinColumn(name = "Library_id", nullable = true)
     private Library library;
 
-    public Employee(String employeeName, Integer employeeAge, String employeeGender, String employeeEmail) {
+    public Employee(String employeeName, Integer employeeAge, EmployeeGender employeeGender, String employeeEmail) {
         this.employeeName = employeeName;
         this.employeeAge = employeeAge;
         this.employeeGender = employeeGender;
@@ -55,5 +55,9 @@ public class Employee {
         this.employeeAge = employeeDTO.getEmployeeAge();
         this.employeeGender = employeeDTO.getEmployeeGender();
         this.employeeEmail = employeeDTO.getEmployeeEmail();
+    }
+
+    public enum EmployeeGender {
+        Male, Female, Other
     }
 }

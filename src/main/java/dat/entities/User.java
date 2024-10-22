@@ -45,7 +45,7 @@ public class User {
     public User(UserDTO userDTO) {
         this.username = userDTO.getUsername();
         this.password = userDTO.getPassword();
-        this.books = userDTO.getBooks();
         this.libraries = userDTO.getLibraries();
+        this.books = userDTO.getBooks();
     }
 }
