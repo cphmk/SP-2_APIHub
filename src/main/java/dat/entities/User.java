@@ -1,5 +1,6 @@
 package dat.entities;
 
+import dat.dtos.UserDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,4 +36,16 @@ public class User {
     @Setter
     @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY) // Should maybe be @ManyToOne
     private Set<Library> libraries = new HashSet<>();
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public User(UserDTO userDTO) {
+        this.username = userDTO.getUsername();
+        this.password = userDTO.getPassword();
+        this.books = userDTO.getBooks();
+        this.libraries = userDTO.getLibraries();
+    }
 }

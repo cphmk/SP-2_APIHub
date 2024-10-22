@@ -1,5 +1,6 @@
 package dat.entities;
 
+import dat.dtos.LibraryDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -44,4 +45,17 @@ public class Library {
             inverseJoinColumns = @JoinColumn(name = "User_id")
     )
     private Set<User> users = new HashSet<>();
+
+    public Library(String libraryName, String libraryAddress) {
+        this.libraryName = libraryName;
+        this.libraryAddress = libraryAddress;
+    }
+
+    public Library(LibraryDTO libraryDTO) {
+        this.libraryName = libraryDTO.getLibraryName();
+        this.libraryAddress = libraryDTO.getLibraryAddress();
+        this.books = libraryDTO.getBooks();
+        this.employees = libraryDTO.getEmployees();
+        this.users = libraryDTO.getUsers();
+    }
 }

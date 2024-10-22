@@ -1,5 +1,6 @@
 package dat.entities;
 
+import dat.dtos.GenreDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,4 +26,13 @@ public class Genre {
 
     @ManyToMany(mappedBy = "genres", fetch = FetchType.LAZY)
     private Set<Book> books = new HashSet<>();
+
+    public Genre(String genreName) {
+        this.genreName = genreName;
+    }
+
+    public Genre(GenreDTO genreDTO) {
+        this.genreName = genreDTO.getGenreName();
+        this.books = genreDTO.getBooks();
+    }
 }

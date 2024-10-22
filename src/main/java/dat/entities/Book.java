@@ -1,5 +1,6 @@
 package dat.entities;
 
+import dat.dtos.BookDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -53,5 +54,31 @@ public class Book {
             inverseJoinColumns = @JoinColumn(name = "Genre_id")
     )
     private Set<Genre> genres = new HashSet<>();
-}
 
+    public Book(String title, Integer year, boolean loanedOut, LocalDateTime loanedOutDate, Set<Genre> genres) {
+        this.title = title;
+        this.year = year;
+        this.loanedOut = loanedOut;
+        this.loanedOutDate = loanedOutDate;
+        this.genres = genres;
+    }
+
+    public Book(String title, Integer year, boolean loanedOut, LocalDateTime loanedOutDate, Library library, User user) {
+        this.title = title;
+        this.year = year;
+        this.loanedOut = loanedOut;
+        this.loanedOutDate = loanedOutDate;
+        this.library = library;
+        this.user = user;
+    }
+
+    public Book(BookDTO bookDTO) {
+        this.title = bookDTO.getTitle();
+        this.year = bookDTO.getYear();
+        this.loanedOut = bookDTO.isLoanedOut();
+        this.loanedOutDate = bookDTO.getLoanedOutDate();
+        this.genres = bookDTO.getGenres();
+        this.library = bookDTO.getLibrary();
+    }
+
+}
