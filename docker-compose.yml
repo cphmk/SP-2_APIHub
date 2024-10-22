@@ -2,7 +2,7 @@ version: '3.9'
 services:
   db:
     image: postgres:16.2
-    container_name: db3sem
+    container_name: db2sem
     mem_limit: 1536MB
     mem_reservation: 1024MB
     restart: unless-stopped
