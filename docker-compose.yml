@@ -18,22 +18,22 @@ services:
       - "5432:5432"
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
-      interval: 30s
-      timeout: 10s
+      interval: 10s
+      timeout: 5s
       retries: 5
-      \#start_period: 10s
+      # start_period: 10s  # Remove or comment this line if unsupported
 
-  hotelAPI:
-    image: cphmk/hotel_api/:latest
-    container_name: hotelAPI
+  libraryAPI:
+    image: cphmk/library_api:latest  # Corrected line
+    container_name: libraryAPI
     ports:
-      - "7070:7070"
+      - "8080:8080"
     environment:
       - DEPLOYED=true
       - CONNECTION_STR=jdbc:postgresql://db:5432/
       - DB_USERNAME=postgres
       - DB_PASSWORD=postgres
-      - DB_NAME=hotel
+      - DB_NAME=library
     restart: unless-stopped
     depends_on:
       db:
