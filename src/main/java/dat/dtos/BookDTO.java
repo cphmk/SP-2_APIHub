@@ -1,5 +1,6 @@
 package dat.dtos;
 
+import dat.entities.Book;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,5 +26,14 @@ public class BookDTO {
         this.loanedOut = loanedOut;
         this.loanedOutDate = loanedOutDate;
         this.genre = genre;
+    }
+
+    public BookDTO(Book book) {
+        this.id = book.getId();
+        this.title = book.getTitle();
+        this.year = book.getYear();
+        this.loanedOut = book.isLoanedOut();
+        this.loanedOutDate = book.getLoanedOutDate();
+        this.genre = book.getGenre();
     }
 }
