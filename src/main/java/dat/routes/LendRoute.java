@@ -1,7 +1,6 @@
 package dat.routes;
 
 import dat.controllers.impl.LendController;
-import dat.controllers.impl.UserController;
 import dat.security.enums.Role;
 import io.javalin.apibuilder.EndpointGroup;
 

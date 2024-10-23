@@ -1,8 +1,6 @@
 package dat.config;
 
 import dat.entities.Book;
-import dat.entities.Employee;
-import dat.entities.Library;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
@@ -15,8 +13,6 @@ public class Populator {
 
         EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory();
 
-        Set<Employee> employees1 = getEmployees1();
-        Set<Employee> employees2 = getEmployees2();
         Set<Book> books = getBooks();
 
         try (EntityManager em = emf.createEntityManager()) {
@@ -25,44 +21,12 @@ public class Populator {
             //genres.forEach(em::persist);
             books.forEach(em::persist);
 
-            Library library1 = new Library("Library of Congress", "Washington D.C.");
-            library1.setEmployees(getEmployees1());
-
-            Library library2 = new Library("New York Public Library", "New York City");
-            library2.setEmployees(getEmployees2());
-
-            em.persist(library1);
-            em.persist(library2);
 
             em.getTransaction().commit();
         }
 
     }
 
-
-    private static Set<Employee> getEmployees1() {
-        Set<Employee> employees = new HashSet<>();
-
-        employees.add(new Employee("John Doe", 25, Employee.EmployeeGender.MALE, "johndoe@mail.com"));
-        employees.add(new Employee("Alice Smith", 30, Employee.EmployeeGender.FEMALE, "alicesmith@mail.com"));
-        employees.add(new Employee("Bob Johnson", 35, Employee.EmployeeGender.OTHER, "bobjohnson@mail.com"));
-        employees.add(new Employee("Charlie Brown", 40, Employee.EmployeeGender.MALE, "charliebrown@mail.com"));
-        employees.add(new Employee("Diana Prince", 45, Employee.EmployeeGender.FEMALE, "dianaprince@mail.com"));
-
-        return employees;
-    }
-
-    private static Set<Employee> getEmployees2() {
-        Set<Employee> employees = new HashSet<>();
-
-        employees.add(new Employee("Jane Doe", 38, Employee.EmployeeGender.FEMALE, "janedoe@mail.com"));
-        employees.add(new Employee("Eve Adams", 45, Employee.EmployeeGender.OTHER, "eveadams@mail.com"));
-        employees.add(new Employee("Frank Castle", 32, Employee.EmployeeGender.MALE, "frankcastle@mail.com"));
-        employees.add(new Employee("Grace Lee", 39, Employee.EmployeeGender.FEMALE, "gracelee@mail.com"));
-        employees.add(new Employee("Henry Ford", 41, Employee.EmployeeGender.MALE, "henryford@mail.com"));
-
-        return employees;
-    }
 
     private static Set<Book> getBooks() {
         Set<Book> books = new HashSet<>();
