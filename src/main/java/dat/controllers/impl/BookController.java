@@ -13,44 +13,85 @@ import java.util.List;
 
 public class BookController implements IController<BookDTO, Integer> {
 
+
+// Benjamins ting der virker med database osv.
     /*
+
+    private final BookDAO dao;
+
+    public BookController() {
+        EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory();
+        this.dao = BookDAO.getInstance(emf);
+    }
     @Override
     public void create(Context ctx) {
-        ctx.json("Create book");
+        //request
+        BookDTO jsonRequest = ctx.bodyAsClass(BookDTO.class);
+        //DTO
+        BookDTO bookDTO = dao.create(jsonRequest);
+        //response
+        ctx.status(201);
+        ctx.json(bookDTO, BookDTO.class);
     }
 
     @Override
     public void readAll(Context ctx) {
-        ctx.json("Read all books");
+        //List of DTO's
+        List<BookDTO>bookDTOS = dao.readAll();
+        //response
+        ctx.status(200);
+        ctx.json(bookDTOS, BookDTO.class);
     }
 
     @Override
     public void read(Context ctx) {
-        ctx.json("Read book");
+        //request
+        int id = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
+        //DTO
+        BookDTO bookDTO = dao.read(id);
+        //response
+        ctx.status(200);
+        ctx.json(bookDTO,BookDTO.class);
     }
 
     @Override
     public void update(Context ctx) {
-        ctx.json("Update book");
+        //request
+        int id = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
+        //DTO
+        BookDTO bookDTO = dao.update(id,validateEntity(ctx));
+        //response
+        ctx.status(200);
+        ctx.json(bookDTO, BookDTO.class);
     }
 
     @Override
     public void delete(Context ctx) {
-        ctx.json("Delete book");
+        //request
+        int id = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
+
+        dao.delete(id);
+        //response
+        ctx.status(204);
     }
 
     @Override
     public boolean validatePrimaryKey(Integer integer) {
-        return false;
+        return dao.validatePrimaryKey(integer);
     }
 
     @Override
     public BookDTO validateEntity(Context ctx) {
-        return null;
+        return ctx.bodyValidator(BookDTO.class)
+                .check( b -> b.getTitle() != null && !b.getTitle().isEmpty(),"Book titel must be set")
+                .check( b -> b.getGenre() !=null ,"Book genre must be set")
+                .check( b -> b.getYear() !=null ,"Book year must be set")
+                .get();
     }
 
      */
 
+  // Mahdis ting der virker med service han selv har lavet 
     private BookService bookService;
 
     public BookController() {

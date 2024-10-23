@@ -58,6 +58,6 @@ public class Employee {
     }
 
     public enum EmployeeGender {
-        Male, Female, Other
+        MALE, FEMALE, OTHER
     }
 }

@@ -44,7 +44,17 @@ public class BookDAO implements IDAO<BookDTO, Integer>{
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             Book book = new Book(bookDTO);
-            em.persist(book);
+
+            TypedQuery<Book> query = em.createQuery("SELECT b FROM Book b WHERE b.title = :title", Book.class);
+            query.setParameter("title", bookDTO.getTitle());
+            //If there exists no books, persist it
+            if (query.getResultList().isEmpty()) {
+                em.persist(book);
+            }
+            else {
+                book = query.getSingleResult();
+            }
+
             em.getTransaction().commit();
             return new BookDTO(book);
         }
