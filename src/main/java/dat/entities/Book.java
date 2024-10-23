@@ -30,6 +30,10 @@ public class Book {
     private Integer year;
 
     @Setter
+    @Column(name = "author", nullable = false)
+    private String author;
+
+    @Setter
     @Column(name = "loaned_out", nullable = false)
     private boolean loanedOut;
 
@@ -52,17 +56,19 @@ public class Book {
     @JoinColumn(name = "User_id", nullable = true)
     private User user;
 
-    public Book(String title, Integer year, boolean loanedOut, LocalDateTime loanedOutDate, Genre genre) {
+    public Book(String title, Integer year, String author, boolean loanedOut, LocalDateTime loanedOutDate, Genre genre) {
         this.title = title;
         this.year = year;
+        this.author = author;
         this.loanedOut = loanedOut;
         this.loanedOutDate = loanedOutDate;
         this.genre = genre;
     }
 
-    public Book(String title, Integer year, boolean loanedOut, LocalDateTime loanedOutDate, Library library, User user) {
+    public Book(String title, Integer year,String author ,boolean loanedOut, LocalDateTime loanedOutDate, Library library, User user) {
         this.title = title;
         this.year = year;
+        this.author = author;
         this.loanedOut = loanedOut;
         this.loanedOutDate = loanedOutDate;
         this.library = library;
@@ -72,6 +78,7 @@ public class Book {
     public Book(BookDTO bookDTO) {
         this.title = bookDTO.getTitle();
         this.year = bookDTO.getYear();
+        this.author = bookDTO.getAuthor();
         this.loanedOut = bookDTO.isLoanedOut();
         this.loanedOutDate = bookDTO.getLoanedOutDate();
         this.genre = bookDTO.getGenre();
