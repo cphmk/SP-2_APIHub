@@ -14,21 +14,21 @@ import java.util.List;
 public class BookController implements IController<BookDTO, Integer> {
 
 
-// Benjamins ting der virker med database osv.
-    /*
+    // Benjamins ting der virker med database osv.
 
-    private final BookDAO dao;
+
+    private final BookService service;
 
     public BookController() {
         EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory();
-        this.dao = BookDAO.getInstance(emf);
+        this.service = BookService.getInstance(emf);
     }
     @Override
     public void create(Context ctx) {
         //request
         BookDTO jsonRequest = ctx.bodyAsClass(BookDTO.class);
         //DTO
-        BookDTO bookDTO = dao.create(jsonRequest);
+        BookDTO bookDTO = service.create(jsonRequest);
         //response
         ctx.status(201);
         ctx.json(bookDTO, BookDTO.class);
@@ -37,7 +37,7 @@ public class BookController implements IController<BookDTO, Integer> {
     @Override
     public void readAll(Context ctx) {
         //List of DTO's
-        List<BookDTO>bookDTOS = dao.readAll();
+        List<BookDTO>bookDTOS = service.readAll();
         //response
         ctx.status(200);
         ctx.json(bookDTOS, BookDTO.class);
@@ -48,7 +48,7 @@ public class BookController implements IController<BookDTO, Integer> {
         //request
         int id = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
         //DTO
-        BookDTO bookDTO = dao.read(id);
+        BookDTO bookDTO = service.read(id);
         //response
         ctx.status(200);
         ctx.json(bookDTO,BookDTO.class);
@@ -59,7 +59,7 @@ public class BookController implements IController<BookDTO, Integer> {
         //request
         int id = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
         //DTO
-        BookDTO bookDTO = dao.update(id,validateEntity(ctx));
+        BookDTO bookDTO = service.update(id,validateEntity(ctx));
         //response
         ctx.status(200);
         ctx.json(bookDTO, BookDTO.class);
@@ -70,14 +70,14 @@ public class BookController implements IController<BookDTO, Integer> {
         //request
         int id = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
 
-        dao.delete(id);
+        service.delete(id);
         //response
         ctx.status(204);
     }
 
     @Override
     public boolean validatePrimaryKey(Integer integer) {
-        return dao.validatePrimaryKey(integer);
+        return service.validatePrimaryKey(integer);
     }
 
     @Override
@@ -89,8 +89,7 @@ public class BookController implements IController<BookDTO, Integer> {
                 .get();
     }
 
-     */
-
+/*
   // Mahdis ting der virker med service han selv har lavet 
     private BookService bookService;
 
@@ -164,6 +163,8 @@ public class BookController implements IController<BookDTO, Integer> {
                 .check(h -> h.getLoanedOutDate() != null, "LoanedOutDate must be set")
                 .get();
     }
+
+ */
 }
 
 

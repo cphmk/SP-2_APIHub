@@ -40,7 +40,7 @@ public class BookDAO implements IDAO<BookDTO, Integer>{
     }
 
     @Override
-    public static BookDTO create(BookDTO bookDTO) {
+    public BookDTO create(BookDTO bookDTO) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             Book book = new Book(bookDTO);

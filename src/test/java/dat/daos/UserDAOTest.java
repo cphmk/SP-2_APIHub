@@ -1,6 +1,7 @@
 package dat.daos;
 
 import dat.config.HibernateConfig;
+import dat.security.daos.SecurityDAO;
 import jakarta.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -10,14 +11,14 @@ import static org.junit.jupiter.api.Assertions.*;
 class UserDAOTest {
 
     private static EntityManagerFactory emf;
-    private static UserDAO userDAO;
+    private static SecurityDAO securityDAO;
 
     @BeforeAll
     static void setUpAll() {
         // Set test to true and get the entity manager factory
         HibernateConfig.setTest(true);
         emf = HibernateConfig.getEntityManagerFactory();
-        userDAO = UserDAO.getInstance(emf);
+        securityDAO = new SecurityDAO(emf);
 
         // Start the server
         //app = ApplicationConfig.startServer(7070);
