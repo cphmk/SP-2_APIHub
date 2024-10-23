@@ -1,6 +1,7 @@
 package dat.entities;
 
 import dat.dtos.BookDTO;
+import dat.security.entities.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

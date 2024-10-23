@@ -42,10 +42,10 @@ public class User {
         this.password = password;
     }
 
-    public User(UserDTO userDTO) {
+    /*public User(UserDTO userDTO) {
         this.username = userDTO.getUsername();
         this.password = userDTO.getPassword();
         this.libraries = userDTO.getLibraries();
         this.books = userDTO.getBooks();
-    }
+    }*/
 }

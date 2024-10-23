@@ -2,6 +2,7 @@ package dat.config;
 
 import dat.entities.*;
 import dat.security.entities.Role;
+import dat.security.entities.User;
 import dat.utils.Utils;
 import jakarta.persistence.EntityManagerFactory;
 import org.hibernate.SessionFactory;
@@ -44,6 +45,7 @@ public class HibernateConfig {
         configuration.addAnnotatedClass(Book.class);
         configuration.addAnnotatedClass(Employee.class);
         configuration.addAnnotatedClass(Library.class);
+        configuration.addAnnotatedClass(LentBook.class);
         configuration.addAnnotatedClass(User.class);
         configuration.addAnnotatedClass(Role.class);
     }
