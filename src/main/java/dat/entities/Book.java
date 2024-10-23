@@ -49,11 +49,6 @@ public class Book {
 
     @Setter
     @ManyToOne
-    @JoinColumn(name = "Library_id", nullable = true)
-    private Library library;
-
-    @Setter
-    @ManyToOne
     @JoinColumn(name = "User_id", nullable = true)
     private User user;
 
@@ -66,13 +61,12 @@ public class Book {
         this.genre = genre;
     }
 
-    public Book(String title, Integer year,String author ,boolean loanedOut, LocalDateTime loanedOutDate, Library library, User user) {
+    public Book(String title, Integer year,String author ,boolean loanedOut, LocalDateTime loanedOutDate, User user) {
         this.title = title;
         this.year = year;
         this.author = author;
         this.loanedOut = loanedOut;
         this.loanedOutDate = loanedOutDate;
-        this.library = library;
         this.user = user;
     }
 

@@ -18,8 +18,7 @@ public class BookDTO {
     private boolean loanedOut;
     private LocalDateTime loanedOutDate;
     private Book.Genre genre;
-    private Set<LibraryDTO> libraries = new HashSet<>();
-    private Set<UserDTO> users = new HashSet<>();
+
 
     public BookDTO(String title, Integer year, String author, boolean loanedOut, LocalDateTime loanedOutDate, Book.Genre genre) {
         this.title = title;
