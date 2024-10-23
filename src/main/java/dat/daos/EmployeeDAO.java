@@ -14,5 +14,4 @@ public class EmployeeDAO {
         }
         return instance;
     }
-
 }
