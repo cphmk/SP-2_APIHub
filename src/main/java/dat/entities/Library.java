@@ -1,6 +1,7 @@
 package dat.entities;
 
 import dat.dtos.LibraryDTO;
+import dat.security.entities.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -51,11 +52,11 @@ public class Library {
         this.libraryAddress = libraryAddress;
     }
 
-    public Library(LibraryDTO libraryDTO) {
+    /*public Library(LibraryDTO libraryDTO) {
         this.libraryName = libraryDTO.getLibraryName();
         this.libraryAddress = libraryDTO.getLibraryAddress();
         this.employees = libraryDTO.getEmployees();
         this.books = libraryDTO.getBooks();
         this.users = libraryDTO.getUsers();
-    }
+    }*/
 }
