@@ -1,14 +1,29 @@
 package dat.controllers.impl;
 
+import dat.config.HibernateConfig;
 import dat.controllers.IController;
+import dat.daos.BookDAO;
 import dat.dtos.BookDTO;
+import dat.entities.Book;
 import io.javalin.http.Context;
+import jakarta.persistence.EntityManagerFactory;
 
 public class BookController implements IController<BookDTO, Integer> {
 
+    private final BookDAO dao;
+
+    public BookController() {
+        EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory();
+        this.dao = BookDAO.getInstance(emf);
+    }
+
     @Override
     public void create(Context ctx) {
-        ctx.json("Create book");
+        BookDTO jsonRequest = ctx.bodyAsClass(BookDTO.class);
+        BookDTO bookDTO = dao.create(jsonRequest);
+
+        ctx.status(201);
+        ctx.json(bookDTO, BookDTO.class);
     }
 
     @Override
