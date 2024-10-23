@@ -18,17 +18,17 @@ public class EmployeeDTO {
     private String employeeEmail;
     private Set<LibraryDTO> libraries = new HashSet<>();
 
-    public EmployeeDTO(Employee employee) {
+    public EmployeeDTO(String employeeName, Integer employeeAge, Employee.EmployeeGender employeeGender, String employeeEmail) {
         this.employeeName = employeeName;
         this.employeeAge = employeeAge;
         this.employeeGender = employeeGender;
         this.employeeEmail = employeeEmail;
     }
 
-    public EmployeeDTO(String employeeName, Integer employeeAge, Employee.EmployeeGender employeeGender, String employeeEmail) {
-        this.employeeName = employeeName;
-        this.employeeAge = employeeAge;
-        this.employeeGender = employeeGender;
-        this.employeeEmail = employeeEmail;
+    public EmployeeDTO(Employee employee) {
+        this.employeeName = employee.getEmployeeName();
+        this.employeeAge = employee.getEmployeeAge();
+        this.employeeGender = employee.getEmployeeGender();
+        this.employeeEmail = employee.getEmployeeEmail();
     }
 }
