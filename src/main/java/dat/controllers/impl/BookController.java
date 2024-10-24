@@ -59,7 +59,7 @@ public class BookController implements IController<BookDTO, Integer> {
         //request
         Book.Genre genre = ctx.pathParamAsClass("genre", Book.Genre.class).get();
         //DTO
-        BookDTO bookDTO = service.readGenre(genre);
+        List<BookDTO> bookDTO = service.readGenre(genre);
         //response
         ctx.status(200);
         ctx.json(bookDTO, BookDTO.class);
@@ -80,7 +80,7 @@ public class BookController implements IController<BookDTO, Integer> {
         int year = ctx.pathParamAsClass("year", Integer.class).get();
 
         //DTO
-        BookDTO bookDTO = service.readYear(year);
+        List<BookDTO> bookDTO = service.readYear(year);
         //response
         ctx.status(200);
         ctx.json(bookDTO, BookDTO.class);
@@ -90,7 +90,7 @@ public class BookController implements IController<BookDTO, Integer> {
         //request
         String author = ctx.pathParamAsClass("author", String.class).get();
         //DTO
-        BookDTO bookDTO = service.readAuthor(author);
+        List<BookDTO> bookDTO = service.readAuthor(author);
         //response
         ctx.status(200);
         ctx.json(bookDTO, BookDTO.class);

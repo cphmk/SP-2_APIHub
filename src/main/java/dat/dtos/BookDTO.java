@@ -1,15 +1,18 @@
 package dat.dtos;
 
 import dat.entities.Book;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+@Setter
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Builder
 public class BookDTO {
     private Integer id;
     private String title;

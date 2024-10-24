@@ -26,16 +26,16 @@ public class BookService {
     public BookDTO read(int id) {
         return bookDAO.read(id);
     }
-    public BookDTO readGenre(Book.Genre genre) {
+    public List<BookDTO> readGenre(Book.Genre genre) {
         return bookDAO.readGenre(genre);
     }
     public BookDTO readTitle(String title) {
         return bookDAO.readTitle(title);
     }
-    public BookDTO readYear(Integer year) {
+    public List<BookDTO> readYear(Integer year) {
         return bookDAO.readYear(year);
     }
-    public BookDTO readAuthor(String author) {
+    public List<BookDTO> readAuthor(String author) {
         return bookDAO.readAuthor(author);
     }
 
