@@ -35,6 +35,8 @@ class UserDAOTest {
     void tearDown() {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
+            em.createQuery("DELETE FROM LentBook").executeUpdate();
+            em.createQuery("DELETE FROM Book").executeUpdate();
             em.createQuery("DELETE FROM User").executeUpdate();
             em.createQuery("DELETE FROM Role").executeUpdate();
             em.getTransaction().commit();
