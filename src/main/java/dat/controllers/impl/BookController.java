@@ -23,6 +23,7 @@ public class BookController implements IController<BookDTO, Integer> {
         EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory();
         this.service = BookService.getInstance(emf);
     }
+
     @Override
     public void create(Context ctx) {
         //request
@@ -37,7 +38,7 @@ public class BookController implements IController<BookDTO, Integer> {
     @Override
     public void readAll(Context ctx) {
         //List of DTO's
-        List<BookDTO>bookDTOS = service.readAll();
+        List<BookDTO> bookDTOS = service.readAll();
         //response
         ctx.status(200);
         ctx.json(bookDTOS, BookDTO.class);
@@ -51,7 +52,48 @@ public class BookController implements IController<BookDTO, Integer> {
         BookDTO bookDTO = service.read(id);
         //response
         ctx.status(200);
-        ctx.json(bookDTO,BookDTO.class);
+        ctx.json(bookDTO, BookDTO.class);
+    }
+
+    public void readGenre(Context ctx) {
+        //request
+        Book.Genre genre = ctx.pathParamAsClass("genre", Book.Genre.class).get();
+        //DTO
+        List<BookDTO> bookDTO = service.readGenre(genre);
+        //response
+        ctx.status(200);
+        ctx.json(bookDTO, BookDTO.class);
+    }
+
+    public void readTitle(Context ctx) {
+        //request
+        String title = ctx.pathParamAsClass("title", String.class).get();
+        //DTO
+        BookDTO bookDTO = service.readTitle(title);
+        //response
+        ctx.status(200);
+        ctx.json(bookDTO, BookDTO.class);
+    }
+
+    public void readYear(Context ctx) {
+        //request
+        int year = ctx.pathParamAsClass("year", Integer.class).get();
+
+        //DTO
+        List<BookDTO> bookDTO = service.readYear(year);
+        //response
+        ctx.status(200);
+        ctx.json(bookDTO, BookDTO.class);
+    }
+
+    public void readAuthor(Context ctx) {
+        //request
+        String author = ctx.pathParamAsClass("author", String.class).get();
+        //DTO
+        List<BookDTO> bookDTO = service.readAuthor(author);
+        //response
+        ctx.status(200);
+        ctx.json(bookDTO, BookDTO.class);
     }
 
     @Override
@@ -59,7 +101,7 @@ public class BookController implements IController<BookDTO, Integer> {
         //request
         int id = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
         //DTO
-        BookDTO bookDTO = service.update(id,validateEntity(ctx));
+        BookDTO bookDTO = service.update(id, validateEntity(ctx));
         //response
         ctx.status(200);
         ctx.json(bookDTO, BookDTO.class);
@@ -83,9 +125,9 @@ public class BookController implements IController<BookDTO, Integer> {
     @Override
     public BookDTO validateEntity(Context ctx) {
         return ctx.bodyValidator(BookDTO.class)
-                .check( b -> b.getTitle() != null && !b.getTitle().isEmpty(),"Book titel must be set")
-                .check( b -> b.getGenre() !=null ,"Book genre must be set")
-                .check( b -> b.getYear() !=null ,"Book year must be set")
+                .check(b -> b.getTitle() != null && !b.getTitle().isEmpty(), "Book titel must be set")
+                .check(b -> b.getGenre() != null, "Book genre must be set")
+                .check(b -> b.getYear() != null, "Book year must be set")
                 .get();
     }
 
