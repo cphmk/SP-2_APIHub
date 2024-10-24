@@ -94,7 +94,7 @@ public class LendDAO implements IDAO<LentBookDTO, Long> {
 
     @Override
     public void delete(Long aLong) {
-
+        
     }
 
     @Override

@@ -27,6 +27,9 @@ public class BookDAO implements IDAO<BookDTO, Integer> {
     public BookDTO read(Integer integer) {
         try (EntityManager em = emf.createEntityManager()) {
             Book book = em.find(Book.class, integer);
+            if (book == null) {
+                return null;
+            }
             return new BookDTO(book);
         }
     }
