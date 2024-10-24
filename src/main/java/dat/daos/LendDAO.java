@@ -1,5 +1,6 @@
 package dat.daos;
 
+import dat.dtos.BookDTO;
 import dat.dtos.LentBookDTO;
 import dat.entities.Book;
 import dat.entities.LentBook;
@@ -48,7 +49,13 @@ public class LendDAO implements IDAO<LentBookDTO, Long> {
 
     @Override
     public LentBookDTO read(Long aLong) {
-        return null;
+        try(EntityManager em = emf.createEntityManager()) {
+            LentBook lentBook = em.find(LentBook.class, aLong);
+            if (lentBook == null) {
+                throw new EntityNotFoundException("LentBook not found");
+            }
+            return new LentBookDTO(lentBook);
+        }
     }
 
     public List<LentBookDTO> readUserLends(UserDTO userDTO) {
@@ -84,21 +91,67 @@ public class LendDAO implements IDAO<LentBookDTO, Long> {
 
     @Override
     public LentBookDTO create(LentBookDTO lentBookDTO) {
-        return null;
+        try(EntityManager em = emf.createEntityManager()){
+            em.getTransaction().begin();
+            LentBook lentBook = new LentBook(lentBookDTO);
+
+            em.persist(lentBook);
+
+            em.getTransaction().commit();
+            return new LentBookDTO(lentBook);
+        } catch (Exception e) {
+            throw new RuntimeException("Error creating LentBook", e);
+        }
     }
 
     @Override
     public LentBookDTO update(Long aLong, LentBookDTO lentBookDTO) {
-        return null;
+        try(EntityManager em = emf.createEntityManager()){
+            em.getTransaction().begin();
+
+            LentBook lentBook = em.find(LentBook.class, aLong);
+            if (lentBook == null) {
+                throw new EntityNotFoundException("LentBook not found");
+            }
+
+            // Book should not be updated, delete the lentbook and create a new one instead.
+            if (lentBookDTO.getBook() != null && !lentBook.getBook().equals(lentBookDTO.getBook())) {
+                throw new IllegalArgumentException("Book cannot be updated for an existing loan");
+            }
+
+            lentBook.setReturnDate(lentBookDTO.getReturnDate());
+            lentBook.setLentDate(lentBookDTO.getLentDate());
+
+            LentBook updatedLentBook = em.merge(lentBook);
+
+            em.getTransaction().commit();
+
+            return new LentBookDTO(updatedLentBook);
+        } catch (Exception e) {
+            throw new RuntimeException("Error updating LentBook", e);
+        }
+
     }
 
     @Override
     public void delete(Long aLong) {
+        try(EntityManager em = emf.createEntityManager()){
+            em.getTransaction().begin();
+            LentBook lentBook = em.find(LentBook.class, aLong);
+            if (lentBook == null) {
+                throw new EntityNotFoundException("LentBook not found");
+            }
+            em.remove(lentBook);
+            em.getTransaction().commit();
+        }
 
     }
 
     @Override
     public boolean validatePrimaryKey(Long aLong) {
-        return false;
+        try(EntityManager em = emf.createEntityManager()) {
+        LentBook lentBook = em.find(LentBook.class, aLong);
+        return lentBook != null;
+        }
     }
 }
