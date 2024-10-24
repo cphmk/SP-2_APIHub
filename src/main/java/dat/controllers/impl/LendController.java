@@ -24,6 +24,20 @@ public class LendController implements IController<BookDTO, Integer> {
 
     @Override
     public void read(Context ctx) {
+        UserDTO userDTO = ctx.attribute("user");
+        try {
+            List<LentBookDTO> lentBookDTO = service.readUserLends(userDTO);
+            ctx.res().setStatus(200);
+            ctx.json(lentBookDTO);
+        } catch (EntityNotFoundException e) {
+
+            ctx.res().setStatus(404);
+            ctx.json(e.getMessage());
+        } catch (Exception e) {
+
+            ctx.res().setStatus(500);
+            ctx.json(e.getMessage());
+        }
 
     }
 
@@ -85,11 +99,43 @@ public class LendController implements IController<BookDTO, Integer> {
 
     @Override
     public void update(Context ctx) {
+        // Get the user from the context (assuming it is set by authentication middleware)
+        UserDTO userDTO = ctx.attribute("user");
 
+        // Get the book ID from the path parameter
+        int bookId = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid book ID").get();
+
+        // Get the LentBookDTO data from the request body
+        LentBookDTO lentBookDTO = ctx.bodyAsClass(LentBookDTO.class);
+
+        // Perform the update via the service
+        try {
+            LentBookDTO updatedLentBookDTO = service.updateLentBook(bookId, lentBookDTO);
+            ctx.res().setStatus(200);  // Success response
+            ctx.json(updatedLentBookDTO);  // Return the updated LentBookDTO
+        } catch (EntityNotFoundException e) {
+            // If the lent book or user is not found, return a 404 error
+            ctx.res().setStatus(404);
+            ctx.json(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            // If there is an issue with the request (like trying to change the book), return a 400 Bad Request error
+            ctx.res().setStatus(400);
+            ctx.json(e.getMessage());
+        } catch (Exception e) {
+            // For any other errors, return a 500 Internal Server Error
+            ctx.res().setStatus(500);
+            ctx.json(e.getMessage());
+        }
     }
 
     @Override
     public void delete(Context ctx) {
+        //request
+        int id = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
+
+        service.delete(id);
+        //response
+        ctx.status(204);
 
     }
 

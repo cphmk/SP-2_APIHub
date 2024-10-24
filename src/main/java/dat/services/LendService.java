@@ -33,5 +33,12 @@ public class LendService {
         return dao.readAll();
     }
 
+    public void delete(long id) {
+        dao.delete(id);
+    }
+
+    public LentBookDTO updateLentBook(Integer integer, LentBookDTO lentBookDTO) { return dao.update(integer,lentBookDTO);}
+
+
 
 }
