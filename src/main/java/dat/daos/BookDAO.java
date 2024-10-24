@@ -29,6 +29,31 @@ public class BookDAO implements IDAO<BookDTO, Integer>{
             return new BookDTO(book);
         }
     }
+    public BookDTO readGenre(Book.Genre genre) {
+        try(EntityManager em = emf.createEntityManager()) {
+            Book book = em.find(Book.class, genre);
+            return new BookDTO(book);
+        }
+    }
+    public BookDTO readTitle(String title) {
+        try(EntityManager em = emf.createEntityManager()) {
+            Book book = em.find(Book.class, title);
+            return new BookDTO(book);
+        }
+    }
+    public BookDTO readYear(Integer year) {
+        try(EntityManager em = emf.createEntityManager()) {
+            Book book = em.find(Book.class, year);
+            return new BookDTO(book);
+        }
+    }
+    public BookDTO readAuthor(String author) {
+        try(EntityManager em = emf.createEntityManager()) {
+            Book book = em.find(Book.class, author);
+            return new BookDTO(book);
+        }
+    }
+
 
     @Override
     public List<BookDTO> readAll() {

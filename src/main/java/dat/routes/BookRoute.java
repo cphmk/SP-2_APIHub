@@ -15,10 +15,10 @@ public class BookRoute {
             post("/", bookController::create, Role.ADMIN);
             get("/", bookController::readAll, Role.ANYONE);
             get("/{id}", bookController::read, Role.ANYONE);
-            get("genre/{genre}", bookController::read, Role.ANYONE);
-            get("title/{title}", bookController::read, Role.ANYONE);
-            get("year/{year}", bookController::read, Role.ANYONE);
-            get("author/{author}", bookController::read, Role.ANYONE);
+            get("genre/{genre}", bookController::readGenre, Role.ANYONE);
+            get("title/{title}", bookController::readTitle, Role.ANYONE);
+            get("year/{year}", bookController::readYear, Role.ANYONE);
+            get("author/{author}", bookController::readAuthor, Role.ANYONE);
             put("/{id}", bookController::update, Role.ADMIN);
             delete("/{id}", bookController::delete, Role.ADMIN);
         };

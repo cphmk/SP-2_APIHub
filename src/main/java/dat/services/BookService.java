@@ -3,6 +3,7 @@ package dat.services;
 import dat.daos.BookDAO;
 import dat.daos.LendDAO;
 import dat.dtos.BookDTO;
+import dat.entities.Book;
 import jakarta.persistence.EntityManagerFactory;
 
 import java.util.List;
@@ -24,6 +25,18 @@ public class BookService {
 
     public BookDTO read(int id) {
         return bookDAO.read(id);
+    }
+    public BookDTO readGenre(Book.Genre genre) {
+        return bookDAO.readGenre(genre);
+    }
+    public BookDTO readTitle(String title) {
+        return bookDAO.readTitle(title);
+    }
+    public BookDTO readYear(Integer year) {
+        return bookDAO.readYear(year);
+    }
+    public BookDTO readAuthor(String author) {
+        return bookDAO.readAuthor(author);
     }
 
     public List<BookDTO> readAll() {
