@@ -3,7 +3,10 @@ package dat.daos;
 import dat.config.HibernateConfig;
 import dat.dtos.BookDTO;
 import dat.entities.Book;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityNotFoundException;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -23,6 +26,18 @@ class BookDAOTest {
         emf = HibernateConfig.getEntityManagerFactory();
         bookDAO = BookDAO.getInstance(emf);
 
+    }
+
+    @AfterEach
+    void tearDown() {
+        try (EntityManager em = emf.createEntityManager()) {
+            em.getTransaction().begin();
+            em.createQuery("DELETE FROM LentBook").executeUpdate();
+            em.createQuery("DELETE FROM Book").executeUpdate();
+            em.createQuery("DELETE FROM User").executeUpdate();
+            em.createQuery("DELETE FROM Role").executeUpdate();
+            em.getTransaction().commit();
+        }
     }
 
     @Test
@@ -63,7 +78,8 @@ class BookDAOTest {
     void delete() {
         BookDTO bookDTO = bookDAO.create(new BookDTO("Delete Book", 2023, "Delete Author", Book.Genre.FICTION));
         bookDAO.delete(bookDTO.getId());
-        BookDTO deletedBook = bookDAO.read(bookDTO.getId());
-        assertNull(deletedBook);
+        assertThrows(EntityNotFoundException.class, () -> {
+            bookDAO.read(bookDTO.getId());
+        });
     }
 }
