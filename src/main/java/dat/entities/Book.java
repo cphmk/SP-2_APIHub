@@ -1,6 +1,7 @@
 package dat.entities;
 
 import dat.dtos.BookDTO;
+import dat.security.entities.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,13 +31,17 @@ public class Book {
     private Integer year;
 
     @Setter
+    @Column(name = "author", nullable = false)
+    private String author;
+
+    @Setter
     @Column(name = "loaned_out", nullable = false)
     private boolean loanedOut;
 
     @Setter
     @Enumerated(EnumType.STRING)
     @Column(name = "genre", nullable = true)
-    private String genre;
+    private Genre genre;
 
     @Setter
     @Column(name = "loaned_out_date", nullable = true)
@@ -44,37 +49,113 @@ public class Book {
 
     @Setter
     @ManyToOne
-    @JoinColumn(name = "Library_id", nullable = true)
-    private Library library;
-
-    @Setter
-    @ManyToOne
     @JoinColumn(name = "User_id", nullable = true)
     private User user;
 
-    public Book(String title, Integer year, boolean loanedOut, LocalDateTime loanedOutDate, Set<Genre> genres) {
+    public Book(String title, Integer year, String author, boolean loanedOut, LocalDateTime loanedOutDate, Genre genre) {
         this.title = title;
         this.year = year;
+        this.author = author;
         this.loanedOut = loanedOut;
         this.loanedOutDate = loanedOutDate;
         this.genre = genre;
     }
 
-    public Book(String title, Integer year, boolean loanedOut, LocalDateTime loanedOutDate, Library library, User user) {
+    public Book(String title, Integer year,String author ,boolean loanedOut, LocalDateTime loanedOutDate, User user) {
         this.title = title;
         this.year = year;
+        this.author = author;
         this.loanedOut = loanedOut;
         this.loanedOutDate = loanedOutDate;
-        this.library = library;
         this.user = user;
     }
 
     public Book(BookDTO bookDTO) {
         this.title = bookDTO.getTitle();
         this.year = bookDTO.getYear();
+        this.author = bookDTO.getAuthor();
         this.loanedOut = bookDTO.isLoanedOut();
         this.loanedOutDate = bookDTO.getLoanedOutDate();
         this.genre = bookDTO.getGenre();
-        this.library = bookDTO.getLibrary();
+    }
+
+    public enum Genre {
+        FICTION,
+        NON_FICTION,
+        SCIENCE_FICTION,
+        FANTASY,
+        MYSTERY,
+        THRILLER,
+        ROMANCE,
+        HORROR,
+        BIOGRAPHY,
+        AUTOBIOGRAPHY,
+        HISTORY,
+        COOKBOOK,
+        ART,
+        SCIENCE,
+        MATHEMATICS,
+        PHILOSOPHY,
+        RELIGION,
+        SELF_HELP,
+        TRAVEL,
+        GUIDE,
+        DIARY,
+        JOURNAL,
+        POETRY,
+        PLAY,
+        COMIC,
+        GRAPHIC_NOVEL,
+        FAIRY_TALE,
+        FOLKLORE,
+        MYTHOLOGY,
+        LEGEND,
+        ESSAY,
+        SPEECH,
+        MEMOIR,
+        CRIME,
+        DRAMA,
+        SATIRE,
+        HUMOR,
+        PARODY,
+        FABLE,
+        ALLEGORY,
+        PROPAGANDA,
+        TRAGEDY,
+        COMEDY,
+        ROMANTIC_COMEDY,
+        ACTION,
+        ADVENTURE,
+        MYSTERY_ADVENTURE,
+        HORROR_ADVENTURE,
+        ROMANTIC_ADVENTURE,
+        SCIENCE_FICTION_ADVENTURE,
+        FANTASY_ADVENTURE,
+        HISTORICAL_FICTION,
+        HISTORICAL_ROMANCE,
+        HISTORICAL_ADVENTURE,
+        HISTORICAL_MYSTERY,
+        HISTORICAL_THRILLER,
+        HISTORICAL_FANTASY,
+        HISTORICAL_HORROR,
+        HISTORICAL_BIOGRAPHY,
+        HISTORICAL_AUTOBIOGRAPHY,
+        HISTORICAL_DIARY,
+        HISTORICAL_JOURNAL,
+        HISTORICAL_POETRY,
+        HISTORICAL_PLAY,
+        HISTORICAL_COMIC,
+        HISTORICAL_GRAPHIC_NOVEL,
+        HISTORICAL_FAIRY_TALE,
+        HISTORICAL_FOLKLORE,
+        HISTORICAL_MYTHOLOGY,
+        HISTORICAL_LEGEND,
+        HISTORICAL_ESSAY,
+        HISTORICAL_SPEECH,
+        HISTORICAL_MEMOIR,
+        HISTORICAL_CRIME,
+        HISTORICAL_DRAMA,
+        HISTORICAL_SATIRE,
+        HISTORICAL_HUMOR
     }
 }

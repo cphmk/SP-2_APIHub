@@ -1,0 +1,210 @@
+POST http://localhost:8080/books
+Content-Type: application/json
+
+{
+  "title": "The Lord of the Rings",
+  "year": 1954,
+  "author": "J.R.R. Tolkien",
+  "genre": "FICTION",
+  "loanedOut": false,
+  "libraries": {
+    "libraryName": "KBH Bibliotek",
+    "libraryAddress": "Vingårdstræde 6, 1070 København K"
+  },
+  "users": {
+    "name": "John Doe",
+    "password": "password",
+    "userRole": "ADMIN"
+  }
+}
+
+###
+
+GET http://localhost:8080/books/2
+accept: application/json
+
+###
+
+GET http://localhost:8080/books
+accept: application/json
+
+###
+
+PUT http://localhost:8080/books/1
+Content-Type: application/json
+
+{
+  "title": "The Hobbit",
+  "year": 1937,
+  "author": "J.R.R. Tolkien",
+  "genre": "FANTASY",
+  "loanedOut": true
+}
+
+###
+
+DELETE http://localhost:8080/books/1
+accept: application/json
+
+###
+
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "password": "password",
+  "userRole": "ADMIN",
+  "books": [
+    {
+      "title": "The Lord of the Rings",
+      "year": 1954,
+      "author": "J.R.R. Tolkien",
+      "genre": "FICTION",
+      "loanedOut": true
+    },
+    {
+      "title": "The Hobbit",
+      "year": 1937,
+      "author": "J.R.R. Tolkien",
+      "genre": "FANTASY",
+      "loanedOut": true
+    }
+  ]
+}
+
+###
+
+GET http://localhost:8080/users/1
+accept: application/json
+
+###
+
+GET http://localhost:8080/users
+accept: application/json
+
+###
+
+PUT http://localhost:8080/users/1
+Content-Type: application/json
+
+{
+  "name": "Jane Doe",
+  "password": "password",
+  "userRole": "USER"
+}
+
+###
+
+DELETE http://localhost:8080/users/1
+accept: application/json
+
+###
+
+POST http://localhost:8080/employees
+Content-Type: application/json
+
+{
+  "employeeName": "Santa Claus",
+  "employeeAge": "65",
+  "employeeGender": "MALE",
+  "employeeEmail": "email@email.com",
+    "libraries": {
+        "libraryName": "KBH Bibliotek",
+        "libraryAddress": "Vingårdstræde 6, 1070 København K"
+    }
+}
+
+###
+
+GET http://localhost:8080/employees/1
+accept: application/json
+
+###
+
+GET http://localhost:8080/employees
+accept: application/json
+
+###
+
+PUT http://localhost:8080/employees/1
+Content-Type: application/json
+
+{
+  "employeeName": "Jack Skellington",
+  "employeeAge": "666",
+  "employeeGender": "MALE",
+  "employeeEmail": "email@email.com"
+}
+
+###
+
+DELETE http://localhost:8080/employees/1
+accept: application/json
+
+###
+
+POST http://localhost:8080/libraries
+Content-Type: application/json
+
+{
+  "libraryName": "KBH Bibliotek",
+  "libraryAddress": "Vingårdstræde 6, 1070 København K",
+  "books": [
+    {
+      "title": "The Lord of the Rings",
+      "year": 1954,
+      "author": "J.R.R. Tolkien",
+      "genre": "FICTION",
+      "loanedOut": false
+    },
+    {
+      "title": "The Hobbit",
+      "year": 1937,
+      "author": "J.R.R. Tolkien",
+      "genre": "FANTASY",
+      "loanedOut": true
+    }
+  ],
+  "employees": [
+    {
+      "employeeName": "Jack Skellington",
+      "employeeAge": "666",
+      "employeeGender": "MALE",
+      "employeeEmail": "email@email.com"
+    },
+    {
+      "employeeName": "Santa Claus",
+      "employeeAge": "65",
+      "employeeGender": "MALE",
+      "employeeEmail": "email@email.com"
+    }
+  ]
+}
+
+###
+
+GET http://localhost:8080/libraries/1
+accept: application/json
+
+###
+
+GET http://localhost:8080/libraries
+accept: application/json
+
+###
+
+PUT http://localhost:8080/libraries/1
+Content-Type: application/json
+
+{
+  "libraryName": "Clauses Bibliotek",
+  "libraryAddress": "I Danmark et sted"
+}
+
+###
+
+DELETE http://localhost:8080/libraries/1
+accept: application/json
+
+###
