@@ -5,6 +5,7 @@ import dat.dtos.BookDTO;
 import dat.entities.Book;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.TypedQuery;
 import kotlin.collections.ArrayDeque;
 
@@ -28,7 +29,7 @@ public class BookDAO implements IDAO<BookDTO, Integer> {
         try (EntityManager em = emf.createEntityManager()) {
             Book book = em.find(Book.class, integer);
             if (book == null) {
-                return null;
+                throw new EntityNotFoundException("Book not found");
             }
             return new BookDTO(book);
         }
