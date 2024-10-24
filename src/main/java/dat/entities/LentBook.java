@@ -2,6 +2,7 @@ package dat.entities;
 
 
 import dat.dtos.LentBookDTO;
+import dk.bugelhartmann.UserDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -41,6 +42,12 @@ public class LentBook {
     public LentBook(User user, Book book) {
         this.user = user;
         this.book = book;
+    }
+
+    public LentBook(LentBookDTO lentBookDTO) {
+        this.user = new User(lentBookDTO.getUser().getUsername(), lentBookDTO.getUser().getPassword());
+        this.book = new Book(lentBookDTO.getBook());
+
     }
 
     @PrePersist
