@@ -1,9 +1,13 @@
 package dat.daos;
 
 import dat.config.HibernateConfig;
+import dat.dtos.BookDTO;
+import dat.entities.Book;
 import jakarta.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,27 +23,47 @@ class BookDAOTest {
         emf = HibernateConfig.getEntityManagerFactory();
         bookDAO = BookDAO.getInstance(emf);
 
-        // Start the server
-        //app = ApplicationConfig.startServer(7070);
     }
 
     @Test
     void read() {
+        BookDTO bookDTO = bookDAO.create(new BookDTO("Test Book", 2023, "Test Author", Book.Genre.FICTION));
+        BookDTO readBook = bookDAO.read(bookDTO.getId());
+        assertNotNull(readBook);
+        assertEquals("Test Book", readBook.getTitle());
     }
 
     @Test
     void readAll() {
+        bookDAO.create(new BookDTO("Test Book 1", 2023, "Test Author 1", Book.Genre.FICTION));
+        bookDAO.create(new BookDTO("Test Book 2", 2023, "Test Author 2", Book.Genre.FICTION));
+        List<BookDTO> books = bookDAO.readAll();
+        assertFalse(books.isEmpty());
+        assertTrue(books.size() >= 2);
     }
 
     @Test
     void create() {
+        BookDTO bookDTO = new BookDTO("New Book", 2023, "New Author", Book.Genre.FICTION);
+        BookDTO createdBook = bookDAO.create(bookDTO);
+        assertNotNull(createdBook);
+        assertEquals("New Book", createdBook.getTitle());
     }
 
     @Test
     void update() {
+        BookDTO bookDTO = bookDAO.create(new BookDTO("Old Title", 2023, "Old Author", Book.Genre.FICTION));
+        bookDTO.setTitle("Updated Title");
+        BookDTO updatedBook = bookDAO.update(bookDTO.getId(), bookDTO);
+        assertNotNull(updatedBook);
+        assertEquals("Updated Title", updatedBook.getTitle());
     }
 
     @Test
     void delete() {
+        BookDTO bookDTO = bookDAO.create(new BookDTO("Delete Book", 2023, "Delete Author", Book.Genre.FICTION));
+        bookDAO.delete(bookDTO.getId());
+        BookDTO deletedBook = bookDAO.read(bookDTO.getId());
+        assertNull(deletedBook);
     }
 }
