@@ -28,9 +28,12 @@ public class LendController implements IController<BookDTO, Long> {
 
     @Override
     public void read(Context ctx) {
-        UserDTO userDTO = ctx.attribute("user");
+
+        //Get the book id from the context
+        long id = ctx.pathParamAsClass("id", Long.class).check(this::validatePrimaryKey, "Not a valid id").get();
+
         try {
-            List<LentBookDTO> lentBookDTO = service.readUserLends(userDTO);
+            LentBookDTO lentBookDTO = service.readLend(id);
             ctx.res().setStatus(200);
             ctx.json(lentBookDTO);
         } catch (EntityNotFoundException e) {
