@@ -13,7 +13,7 @@ POST {{url}}/auth/register/
 POST {{url}}/auth/login/
 
 {
-    "username": "usermk",
+    "username": "user1",
     "password": "test1234"
 }
 
@@ -51,21 +51,11 @@ Authorization: Bearer {{jwt_token}}
   "title": "The Lord of the Rings",
   "year": 1954,
   "author": "J.R.R. Tolkien",
-  "genre": "FICTION",
-  "loanedOut": false,
-  "libraries": {
-    "libraryName": "KBH Bibliotek",
-    "libraryAddress": "Vingårdstræde 6, 1070 København K"
-  },
-  "users": {
-    "name": "John Doe",
-    "password": "password",
-    "userRole": "ADMIN"
-  }
+  "genre": "FICTION"
 }
 
 ### View book by id
-GET {{url}}/books/2
+GET {{url}}/books/1
 Accept: application/json
 
 ### View all books

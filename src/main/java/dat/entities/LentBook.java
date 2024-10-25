@@ -46,10 +46,14 @@ public class LentBook {
         this.returnDate = returnDate;
     }
 
+    public LentBook(User user, Book book) {
+        this.user = user;
+        this.book = book;
+    }
+
     public LentBook(LentBookDTO lentBookDTO) {
         this.user = new User(lentBookDTO.getUser().getUsername(), lentBookDTO.getUser().getPassword());
         this.book = new Book(lentBookDTO.getBook());
-
     }
 
 

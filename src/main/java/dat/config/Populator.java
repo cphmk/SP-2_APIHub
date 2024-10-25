@@ -16,41 +16,58 @@ import java.util.List;
 import java.util.Set;
 
 public class Populator {
-    public static void main(String[] args) {
 
-        EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory();
+    static EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory();
+
+    public static void main(String[] args) {
         SecurityDAO securityDAO = new SecurityDAO(emf);
 
         Set<Book> books = getBooks();
-        List<User> users = getUsers();
+
+
+
+        User user1 = new User("user1", "test1234");
+        User user2 = new User("user2", "test1234");
+        User admin = new User("admin", "admin1234");
+        Role userRole = new Role("USER");
+        Role adminRole = new Role("ADMIN");
+        user1.addRole(userRole);
+        user2.addRole(userRole);
+        admin.addRole(adminRole);
+
+
 
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
 
             books.forEach(em::persist);
-            users.forEach(user -> {
-                securityDAO.createUser(user.getUsername(), user.getPassword());
-            });
-            securityDAO.addRole(new UserDTO(users.get(2).getUsername(), users.get(2).getPassword()), "ADMIN");
 
-            //Assign some books for the first user
-            Set<LentBook> lentBooks = new HashSet<>();
-            lentBooks.add(new LentBook(users.get(0), books.stream().findFirst().get()));
-            lentBooks.add(new LentBook(users.get(0), books.stream().skip(4).findFirst().get()));
-            lentBooks.add(new LentBook(users.get(0), books.stream().skip(5).findFirst().get()));
-            lentBooks.add(new LentBook(users.get(0), books.stream().skip(7).findFirst().get()));
-            lentBooks.add(new LentBook(users.get(1), books.stream().skip(1).findFirst().get()));
-            lentBooks.add(new LentBook(users.get(1), books.stream().skip(5).findFirst().get()));
-            lentBooks.add(new LentBook(users.get(1), books.stream().skip(2).findFirst().get()));
-            lentBooks.add(new LentBook(users.get(1), books.stream().skip(6).findFirst().get()));
-
-            lentBooks.forEach(em::persist);
+            em.persist(userRole);
+            em.persist(adminRole);
+            em.persist(user1);
+            em.persist(user2);
+            em.persist(admin);
 
             em.getTransaction().commit();
         }
 
-    }
+        // Assign some books for the first user
+        try (EntityManager em = emf.createEntityManager()) {
+            em.getTransaction().begin();
+            Set<LentBook> lentBooks = new HashSet<>();
+            lentBooks.add(new LentBook(user1, books.stream().findFirst().get()));
+            lentBooks.add(new LentBook(user1, books.stream().skip(4).findFirst().get()));
+            lentBooks.add(new LentBook(user1, books.stream().skip(5).findFirst().get()));
+            lentBooks.add(new LentBook(user1, books.stream().skip(7).findFirst().get()));
+            lentBooks.add(new LentBook(user2, books.stream().skip(1).findFirst().get()));
+            lentBooks.add(new LentBook(user2, books.stream().skip(5).findFirst().get()));
+            lentBooks.add(new LentBook(user2, books.stream().skip(2).findFirst().get()));
+            lentBooks.add(new LentBook(user2, books.stream().skip(6).findFirst().get()));
 
+            lentBooks.forEach(em::persist);
+            em.getTransaction().commit();
+        }
+    }
 
     private static Set<Book> getBooks() {
         Set<Book> books = new HashSet<>();
@@ -78,16 +95,4 @@ public class Populator {
         return books;
     }
 
-    private static List<User> getUsers() {
-        List<User> users = new ArrayList<>();
-
-        users.add(new User("user1", "user1"));
-        users.add(new User("user2", "user2"));
-
-        User admin = new User("admin", "admin1234");
-        admin.addRole(new Role("ADMIN"));
-        users.add(admin);
-
-        return users;
-    }
 }
