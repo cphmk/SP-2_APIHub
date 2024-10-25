@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class LendServiceTest {
 
-    /*private EntityManagerFactory emf;
+    private EntityManagerFactory emf;
     private LendService lendService;
 
     @BeforeAll
@@ -112,7 +112,7 @@ public class LendServiceTest {
         assertThat(allLends, not(hasItem(hasProperty("id", is(idToDelete)))));
     }
 
-    @Test
+    /*@Test
     public void testUpdateLentBook_Admin() {
         UserDTO adminUser = new UserDTO("admin", "Admin User");
         BookDTO book = new BookDTO(1, "Sample Book", 2020, "Author", Book.Genre.FICTION); // Create a book DTO
@@ -122,9 +122,9 @@ public class LendServiceTest {
 
         assertThat(result, is(notNullValue()));
         assertThat(result.getBook().getId(), is(1L));
-    }
+    }*/
 
-    @Test
+    /*@Test
     public void testUpdateLentBook_User() {
         UserDTO user = new UserDTO("john.doe", "John Doe");
         BookDTO book = new BookDTO(1, "Sample Book", 2020, "Author", Book.Genre.FICTION); // Create a book DTO
@@ -134,7 +134,7 @@ public class LendServiceTest {
 
         assertThat(result, is(notNullValue()));
         assertThat(result.getBook().getId(), is(1L));
-    }
+    }*/
 
     @Test
     public void testUpdateLentBook_UserAfterLentDate() {
@@ -147,5 +147,5 @@ public class LendServiceTest {
         });
 
         assertThat(exception.getMessage(), is("Loan cannot be updated after the lent date has been reached."));
-    }*/
+    }
 }
