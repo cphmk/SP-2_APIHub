@@ -2,6 +2,7 @@ package dat.entities;
 
 
 import dat.dtos.LentBookDTO;
+import dk.bugelhartmann.UserDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,10 +39,19 @@ public class LentBook {
     @Column
     private LocalDateTime returnDate;
 
-    public LentBook(User user, Book book) {
+    public LentBook(User user, Book book, LocalDateTime lentDate, LocalDateTime returnDate) {
         this.user = user;
         this.book = book;
+        this.lentDate = lentDate;
+        this.returnDate = returnDate;
     }
+
+    public LentBook(LentBookDTO lentBookDTO) {
+        this.user = new User(lentBookDTO.getUser().getUsername(), lentBookDTO.getUser().getPassword());
+        this.book = new Book(lentBookDTO.getBook());
+
+    }
+
 
     @PrePersist
     public void prePersist() {

@@ -3,12 +3,19 @@ package dat.daos;
 import dat.config.HibernateConfig;
 import dat.dtos.BookDTO;
 import dat.entities.Book;
+
 import io.restassured.common.mapper.TypeRef;
+
+import jakarta.persistence.EntityManager;
+
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityNotFoundException;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+
 
 import dat.config.ApplicationConfig;
 import dat.security.controllers.SecurityController;
@@ -23,6 +30,9 @@ import org.junit.jupiter.api.*;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 
 class BookDAOTest {
 
@@ -43,9 +53,18 @@ class BookDAOTest {
         HibernateConfig.setTest(true);
         emf = HibernateConfig.getEntityManagerFactory();
         bookDAO = BookDAO.getInstance(emf);
+    }
 
-        // Start the server
-        //app = ApplicationConfig.startServer(7070);
+    @AfterEach
+    void tearDown() {
+        try (EntityManager em = emf.createEntityManager()) {
+            em.getTransaction().begin();
+            em.createQuery("DELETE FROM LentBook").executeUpdate();
+            em.createQuery("DELETE FROM Book").executeUpdate();
+            em.createQuery("DELETE FROM User").executeUpdate();
+            em.createQuery("DELETE FROM Role").executeUpdate();
+            em.getTransaction().commit();
+        }
     }
 
     @BeforeEach
@@ -68,18 +87,6 @@ class BookDAOTest {
             throw new RuntimeException(e);
         }
 
-    }
-
-    @AfterEach
-    void tearDown() {
-        try (EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-            em.createQuery("DELETE FROM User").executeUpdate();
-            em.createQuery("DELETE FROM Book ").executeUpdate();
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @AfterAll
@@ -137,5 +144,6 @@ class BookDAOTest {
 
     @Test
     void Delete() {
+
     }
 }

@@ -35,47 +35,26 @@ public class Book {
     private String author;
 
     @Setter
-    @Column(name = "loaned_out", nullable = false)
-    private boolean loanedOut;
-
-    @Setter
     @Enumerated(EnumType.STRING)
     @Column(name = "genre", nullable = true)
     private Genre genre;
-
-    @Setter
-    @Column(name = "loaned_out_date", nullable = true)
-    private LocalDateTime loanedOutDate;
 
     @Setter
     @ManyToOne
     @JoinColumn(name = "User_id", nullable = true)
     private User user;
 
-    public Book(String title, Integer year, String author, boolean loanedOut, LocalDateTime loanedOutDate, Genre genre) {
+    public Book(String title, Integer year, String author, Genre genre) {
         this.title = title;
         this.year = year;
         this.author = author;
-        this.loanedOut = loanedOut;
-        this.loanedOutDate = loanedOutDate;
         this.genre = genre;
-    }
-
-    public Book(String title, Integer year,String author ,boolean loanedOut, LocalDateTime loanedOutDate, User user) {
-        this.title = title;
-        this.year = year;
-        this.author = author;
-        this.loanedOut = loanedOut;
-        this.loanedOutDate = loanedOutDate;
-        this.user = user;
     }
 
     public Book(BookDTO bookDTO) {
         this.title = bookDTO.getTitle();
         this.year = bookDTO.getYear();
         this.author = bookDTO.getAuthor();
-        this.loanedOut = bookDTO.isLoanedOut();
-        this.loanedOutDate = bookDTO.getLoanedOutDate();
         this.genre = bookDTO.getGenre();
     }
 

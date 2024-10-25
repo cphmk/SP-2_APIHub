@@ -1,3 +1,15 @@
+### A simple get request to the test endpoint. No need for login
+GET {{url}}/auth/test/
+
+### Create a new user - this one will only get a USER role by default
+POST {{url}}/auth/register/
+
+{
+    "username": "usermk",
+    "password": "test1234"
+}
+
+### Login to get token
 POST {{url}}/auth/login/
 
 {
@@ -9,8 +21,28 @@ POST {{url}}/auth/login/
     client.global.set("jwt_token", response.body.token);
 %}
 
-###
+### Test user role
+GET {{url}}/protected/user_demo/
+Accept: application/json
+Authorization: Bearer {{jwt_token}}
 
+### Test admin role
+GET {{url}}/protected/admin_demo/
+Accept: application/json
+Authorization: Bearer {{jwt_token}}
+
+### Add admin role to user
+POST {{url}}/auth/user/addrole/
+Accept: application/json
+Authorization: Bearer {{jwt_token}}
+
+{
+    "role": "ADMIN"
+}
+Accept: application/json
+Authorization: Bearer {{jwt_token}}
+
+### Add book
 POST {{url}}/books
 Content-Type: application/json
 Authorization: Bearer {{jwt_token}}
@@ -20,40 +52,29 @@ Authorization: Bearer {{jwt_token}}
   "year": 1954,
   "author": "J.R.R. Tolkien",
   "genre": "FICTION",
-  "loanedOut": false
+  "loanedOut": false,
+  "libraries": {
+    "libraryName": "KBH Bibliotek",
+    "libraryAddress": "Vingårdstræde 6, 1070 København K"
+  },
+  "users": {
+    "name": "John Doe",
+    "password": "password",
+    "userRole": "ADMIN"
+  }
 }
 
-###
+### View book by id
+GET {{url}}/books/2
+Accept: application/json
 
-POST {{url}}/books
-Content-Type: application/json
-Authorization: Bearer {{jwt_token}}
-
-{
-    "title": "Pulp Fiction",
-    "year": 1994,
-    "author": "Quentin Tarantino",
-    "genre": "ACTION",
-    "loanedOut": false
-}
-
-###
-
-GET {{url}}/books/1
-accept: application/json
-Authorization: Bearer {{jwt_token}}
-
-###
-
+### View all books
 GET {{url}}/books
-accept: application/json
-Authorization: Bearer {{jwt_token}}
+Accept: application/json
 
-###
-
+### Update book by id
 PUT {{url}}/books/1
 Content-Type: application/json
-Authorization: Bearer {{jwt_token}}
 
 {
   "title": "The Hobbit",
@@ -63,17 +84,14 @@ Authorization: Bearer {{jwt_token}}
   "loanedOut": true
 }
 
-###
-
+### Delete book by id
 DELETE {{url}}/books/1
-accept: application/json
+Accept: application/json
 Authorization: Bearer {{jwt_token}}
 
 ###
-
 POST {{url}}/users
 Content-Type: application/json
-Authorization: Bearer {{jwt_token}}
 
 {
   "name": "John Doe",
@@ -100,20 +118,17 @@ Authorization: Bearer {{jwt_token}}
 ###
 
 GET {{url}}/users/1
-accept: application/json
-Authorization: Bearer {{jwt_token}}
+Accept: application/json
 
 ###
 
 GET {{url}}/users
-accept: application/json
-Authorization: Bearer {{jwt_token}}
+Accept: application/json
 
 ###
 
 PUT {{url}}/users/1
 Content-Type: application/json
-Authorization: Bearer {{jwt_token}}
 
 {
   "name": "Jane Doe",
@@ -124,6 +139,115 @@ Authorization: Bearer {{jwt_token}}
 ###
 
 DELETE {{url}}/users/1
-accept: application/json
+Accept: application/json
 Authorization: Bearer {{jwt_token}}
 
+###
+
+POST {{url}}/employees
+Content-Type: application/json
+
+{
+  "employeeName": "Santa Claus",
+  "employeeAge": "65",
+  "employeeGender": "MALE",
+  "employeeEmail": "email@email.com",
+    "libraries": {
+        "libraryName": "KBH Bibliotek",
+        "libraryAddress": "Vingårdstræde 6, 1070 København K"
+    }
+}
+
+###
+
+GET {{url}}/employees/1
+Accept: application/json
+
+###
+
+GET {{url}}/employees
+Accept: application/json
+
+###
+
+PUT {{url}}/employees/1
+Content-Type: application/json
+
+{
+  "employeeName": "Jack Skellington",
+  "employeeAge": "666",
+  "employeeGender": "MALE",
+  "employeeEmail": "email@email.com"
+}
+
+###
+
+DELETE {{url}}/employees/1
+Accept: application/json
+
+###
+
+POST {{url}}/libraries
+Content-Type: application/json
+
+{
+  "libraryName": "KBH Bibliotek",
+  "libraryAddress": "Vingårdstræde 6, 1070 København K",
+  "books": [
+    {
+      "title": "The Lord of the Rings",
+      "year": 1954,
+      "author": "J.R.R. Tolkien",
+      "genre": "FICTION",
+      "loanedOut": false
+    },
+    {
+      "title": "The Hobbit",
+      "year": 1937,
+      "author": "J.R.R. Tolkien",
+      "genre": "FANTASY",
+      "loanedOut": true
+    }
+  ],
+  "employees": [
+    {
+      "employeeName": "Jack Skellington",
+      "employeeAge": "666",
+      "employeeGender": "MALE",
+      "employeeEmail": "email@email.com"
+    },
+    {
+      "employeeName": "Santa Claus",
+      "employeeAge": "65",
+      "employeeGender": "MALE",
+      "employeeEmail": "email@email.com"
+    }
+  ]
+}
+
+###
+
+GET {{url}}/libraries/1
+Accept: application/json
+
+###
+
+GET {{url}}/libraries
+Accept: application/json
+
+###
+
+PUT {{url}}/libraries/1
+Content-Type: application/json
+
+{
+  "libraryName": "Clauses Bibliotek",
+  "libraryAddress": "I Danmark et sted"
+}
+
+###
+
+DELETE {{url}}/libraries/1
+Accept: application/json
+
+###
