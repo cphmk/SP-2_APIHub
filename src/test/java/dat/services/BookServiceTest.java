@@ -56,7 +56,7 @@ public class BookServiceTest {
         List<BookDTO> books = bookService.readGenre(Book.Genre.FICTION);
 
         assertThat(books, hasSize(1));
-        assertThat(books.get(0).getTitle(), is("Sample Title"));
+        assertThat(books.get(0).getGenre(), is(Book.Genre.FICTION));
     }
 
     @Test

@@ -5,6 +5,7 @@ import dat.dtos.BookDTO;
 import dat.dtos.LentBookDTO;
 import dat.entities.Book;
 import dat.entities.LentBook;
+import dat.security.entities.User;
 import dat.services.LendService;
 import dat.daos.LendDAO;
 import dk.bugelhartmann.UserDTO;
@@ -33,17 +34,26 @@ public class LendServiceTest {
         lendService = LendService.getInstance(emf);
 
         // Set up a user and book for lending
-        UserDTO user = new UserDTO("john.doe", "John Doe");
-        BookDTO book = new BookDTO(1, "Sample Book", 2020, "Author", Book.Genre.FICTION);
+        UserDTO userDTO = new UserDTO("john.doe", "John Doe");
+        BookDTO bookDTO = new BookDTO(1, "Sample Book", 2020, "Author", Book.Genre.FICTION);
+
+        try (EntityManager em = emf.createEntityManager()) {
+            em.getTransaction().begin();
+            User user = new User(userDTO.getUsername(), userDTO.getUsername());
+            Book book = new Book(bookDTO.getTitle(), bookDTO.getYear(), bookDTO.getAuthor(), bookDTO.getGenre());
+            em.persist(user);
+            em.persist(book);
+            em.getTransaction().commit();
+        }
 
         // Lend the book to the user
-        LentBookDTO lentBook = new LentBookDTO(1, user, book, LocalDateTime.now(), LocalDateTime.now().plusDays(28));
-        lendService.lendBook(user, 1L); // Assuming book ID 1 is valid
+        LentBookDTO lentBook = new LentBookDTO(1, userDTO, bookDTO, LocalDateTime.now(), LocalDateTime.now().plusDays(28));
+        lendService.lendBook(userDTO, 1L); // Assuming book ID 1 is valid
     }
 
     @AfterAll
     public void tearDown() {
-        try(EntityManager em = emf.createEntityManager()) {
+        try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             em.createQuery("DELETE FROM LentBook").executeUpdate();
             em.createQuery("DELETE FROM Book").executeUpdate();
@@ -55,14 +65,26 @@ public class LendServiceTest {
 
     @Test
     public void testLendBook() {
-        UserDTO user = new UserDTO("jane.doe", "Jane Doe");
-        BookDTO book = new BookDTO(2, "Another Book", 2021, "Another Author", Book.Genre.NON_FICTION); // Create a new book DTO
+        UserDTO userDTO = new UserDTO("jane.doe", "Jane Doe");
+        BookDTO bookDTO = new BookDTO(2, "Another Book", 2021, "Another Author", Book.Genre.NON_FICTION); // Create a new book DTO
 
-        LentBookDTO lentBook = lendService.lendBook(user, 2); // Lend another book
+        User user = null;
+        Book book = null;
 
-        assertThat(lentBook, is(notNullValue()));
-        assertThat(lentBook.getBook().getId(), is(2)); // Assuming the book DTO is included in the lent book DTO
-        assertThat(lentBook.getUser().getUsername(), is("jane.doe"));
+        try (EntityManager em = emf.createEntityManager()) {
+            em.getTransaction().begin();
+            user = new User(userDTO.getUsername(), userDTO.getUsername());
+            book = new Book(bookDTO.getTitle(), bookDTO.getYear(), bookDTO.getAuthor(), bookDTO.getGenre());
+            em.persist(user);
+            em.persist(book);
+            em.getTransaction().commit();
+        }
+        LentBookDTO lentBookDTO = lendService.lendBook(userDTO, 2); // Lend another book
+
+
+        assertThat(lentBookDTO, is(notNullValue()));
+        assertThat(lentBookDTO.getBook().getId(), is(2)); // Assuming the book DTO is included in the lent book DTO
+        assertThat(lentBookDTO.getUser().getUsername(), is("jane.doe"));
     }
 
     @Test
@@ -83,7 +105,7 @@ public class LendServiceTest {
 
     @Test
     public void testDelete() {
-        long idToDelete = 1; // Assuming ID 1 exists
+        long idToDelete = 2; // Assuming ID 1 exists
         lendService.delete(idToDelete);
 
         List<LentBookDTO> allLends = lendService.readAllLends();
