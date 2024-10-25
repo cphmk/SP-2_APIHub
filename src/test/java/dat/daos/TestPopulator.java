@@ -36,8 +36,8 @@ public class TestPopulator {
 
     public static Book[] populateBooks(EntityManagerFactory emf) {
         Book book1, book2;
-        book1 = new Book("The Great Gatsby", 1925, "Francis Scott Fitzgerald", true, LocalDateTime.now(), Book.Genre.ROMANCE);
-        book2 = new Book("To Kill a Mockingbird", 1960, "Harper Lee", false, LocalDateTime.now(), Book.Genre.CRIME);
+        book1 = new Book("The Great Gatsby", 1925, "Francis Scott Fitzgerald", Book.Genre.ROMANCE);
+        book2 = new Book("To Kill a Mockingbird", 1960, "Harper Lee", Book.Genre.CRIME);
 
         try (var em = emf.createEntityManager()) {
             em.getTransaction().begin();
