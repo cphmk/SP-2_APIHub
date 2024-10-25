@@ -54,8 +54,10 @@ public class SecurityDAO implements ISecurityDAO {
             userEntity = new User(username, password);
             em.getTransaction().begin();
             Role userRole = em.find(Role.class, "user");
+            System.out.println("User role: " + userRole);
             if (userRole == null)
                 userRole = new Role("user");
+            System.out.println("Role added");
             em.persist(userRole);
             userEntity.addRole(userRole);
             em.persist(userEntity);

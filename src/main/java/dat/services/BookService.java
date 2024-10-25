@@ -63,7 +63,6 @@ public class BookService {
         return
                 bookDTO.getTitle() != null && !bookDTO.getTitle().isEmpty() &&  // Checking if title is not null or empty
                         bookDTO.getYear() != null &&  //  checking if year is not null
-                        bookDTO.getLoanedOutDate() != null &&   // checking if loanedOutDate is not null
                         bookDTO.getGenre() != null;   // checking if genre is not null
 
     }

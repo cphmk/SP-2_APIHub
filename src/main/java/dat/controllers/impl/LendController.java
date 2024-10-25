@@ -4,6 +4,7 @@ import dat.config.HibernateConfig;
 import dat.controllers.IController;
 import dat.dtos.BookDTO;
 import dat.dtos.LentBookDTO;
+import dat.services.BookService;
 import dat.services.LendService;
 import dk.bugelhartmann.UserDTO;
 import io.javalin.http.Context;
@@ -12,18 +13,38 @@ import jakarta.persistence.EntityNotFoundException;
 
 import java.util.List;
 
-public class LendController implements IController<BookDTO, Integer> {
+public class LendController implements IController<BookDTO, Long> {
 
     private final LendService service;
+    private final BookService bookService;
+
 
     public LendController() {
         EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory();
         this.service = LendService.getInstance(emf);
+        this.bookService = BookService.getInstance(emf);
     }
 
 
     @Override
     public void read(Context ctx) {
+
+        //Get the book id from the context
+        long id = ctx.pathParamAsClass("id", Long.class).check(this::validatePrimaryKey, "Not a valid id").get();
+
+        try {
+            LentBookDTO lentBookDTO = service.readLend(id);
+            ctx.res().setStatus(200);
+            ctx.json(lentBookDTO);
+        } catch (EntityNotFoundException e) {
+
+            ctx.res().setStatus(404);
+            ctx.json(e.getMessage());
+        } catch (Exception e) {
+
+            ctx.res().setStatus(500);
+            ctx.json(e.getMessage());
+        }
 
     }
 
@@ -70,7 +91,7 @@ public class LendController implements IController<BookDTO, Integer> {
         UserDTO userDTO = ctx.attribute("user");
 
         //Get the book id from the context
-        int id = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
+        long id = ctx.pathParamAsClass("id", Long.class).check(this::validatePrimaryKey, "Not a valid id").get();
 
         //Lend the book
         try {
@@ -85,22 +106,57 @@ public class LendController implements IController<BookDTO, Integer> {
 
     @Override
     public void update(Context ctx) {
+        UserDTO userDTO = ctx.attribute("user");
 
+        String userRole = ctx.attribute("role");
+
+        Long bookId = ctx.pathParamAsClass("id", Long.class)
+                .check(this::validatePrimaryKey, "Not a valid book ID")
+                .get();
+
+        LentBookDTO lentBookDTO = ctx.bodyAsClass(LentBookDTO.class);
+
+        try {
+            LentBookDTO updatedLentBookDTO = service.updateLentBook(userDTO, bookId, lentBookDTO, userRole);
+            ctx.res().setStatus(200);
+            ctx.json(updatedLentBookDTO);
+        } catch (EntityNotFoundException e) {
+            ctx.res().setStatus(404);
+            ctx.json(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            ctx.res().setStatus(400);
+            ctx.json(e.getMessage());
+        } catch (Exception e) {
+            ctx.res().setStatus(500);
+            ctx.json(e.getMessage());
+        }
     }
 
     @Override
     public void delete(Context ctx) {
+        //request
+        long id = ctx.pathParamAsClass("id", Long.class).check(this::validatePrimaryKey, "Not a valid id").get();
+
+        service.delete(id);
+        //response
+        ctx.status(204);
 
     }
 
     @Override
-    public boolean validatePrimaryKey(Integer integer) {
-        //Check if the book exists using bookservice and then its find method with the id
-        return true;
+    public boolean validatePrimaryKey(Long bookId) {
+        return bookService.validatePrimaryKey(bookId.intValue());
     }
 
     @Override
     public BookDTO validateEntity(Context ctx) {
-        return null;
+        BookDTO bookDTO = ctx.bodyAsClass(BookDTO.class);
+
+        if (!bookService.validateBookDTO(bookDTO)) {
+            throw new IllegalArgumentException("Invalid BookDTO: All required fields must be filled.");
+        }
+
+        return bookDTO;
     }
+
 }

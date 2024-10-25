@@ -26,95 +26,145 @@ public class BookController implements IController<BookDTO, Integer> {
 
     @Override
     public void create(Context ctx) {
-        //request
-        BookDTO jsonRequest = ctx.bodyAsClass(BookDTO.class);
-        //DTO
-        BookDTO bookDTO = service.create(jsonRequest);
-        //response
-        ctx.status(201);
-        ctx.json(bookDTO, BookDTO.class);
+        try {
+            //request
+            BookDTO jsonRequest = ctx.bodyAsClass(BookDTO.class);
+
+            //DTO
+            BookDTO bookDTO = service.create(jsonRequest);
+            if (bookDTO == null) {
+                ctx.status(400);
+                ctx.result("Invalid book data");
+                return;
+            }
+
+            //response
+            ctx.status(201);
+            ctx.json(bookDTO, BookDTO.class);
+        } catch (Exception e) {
+            ctx.status(500).result("An error occurred while creating a book");
+        }
     }
 
     @Override
     public void readAll(Context ctx) {
-        //List of DTO's
-        List<BookDTO> bookDTOS = service.readAll();
-        //response
-        ctx.status(200);
-        ctx.json(bookDTOS, BookDTO.class);
+        try {
+            //List of DTO's
+            List<BookDTO> bookDTOS = service.readAll();
+            //response
+            if (bookDTOS.isEmpty()) {
+                ctx.status(404);
+                ctx.result("No books found");
+                return;
+            }
+
+            ctx.status(200);
+            ctx.json(bookDTOS, BookDTO.class);
+        } catch (Exception e) {
+            System.out.println("An error occurred while fetching all books: " + e.getMessage());
+        }
     }
 
     @Override
     public void read(Context ctx) {
-        //request
-        int id = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
-        //DTO
-        BookDTO bookDTO = service.read(id);
-        //response
-        ctx.status(200);
-        ctx.json(bookDTO, BookDTO.class);
+        try {
+
+            //request
+            int id = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
+            //DTO
+            BookDTO bookDTO = service.read(id);
+            //response
+            ctx.status(200);
+            ctx.json(bookDTO, BookDTO.class);
+        } catch (Exception e) {
+            System.out.println("An error occurred while fetching a book: " + e.getMessage());
+        }
     }
 
     public void readGenre(Context ctx) {
-        //request
-        Book.Genre genre = ctx.pathParamAsClass("genre", Book.Genre.class).get();
-        //DTO
-        List<BookDTO> bookDTO = service.readGenre(genre);
-        //response
-        ctx.status(200);
-        ctx.json(bookDTO, BookDTO.class);
+        try {
+            //request
+            Book.Genre genre = ctx.pathParamAsClass("genre", Book.Genre.class).get();
+            //DTO
+            List<BookDTO> bookDTO = service.readGenre(genre);
+            //response
+            ctx.status(200);
+            ctx.json(bookDTO, BookDTO.class);
+        } catch (Exception e) {
+            System.out.println("An error occurred while fetching a books genre: " + e.getMessage());
+        }
     }
 
     public void readTitle(Context ctx) {
-        //request
-        String title = ctx.pathParamAsClass("title", String.class).get();
-        //DTO
-        BookDTO bookDTO = service.readTitle(title);
-        //response
-        ctx.status(200);
-        ctx.json(bookDTO, BookDTO.class);
+        try {
+            //request
+            String title = ctx.pathParamAsClass("title", String.class).get();
+            //DTO
+            BookDTO bookDTO = service.readTitle(title);
+            //response
+            ctx.status(200);
+            ctx.json(bookDTO, BookDTO.class);
+        } catch (Exception e) {
+            System.out.println("An error occurred while fetching a books title: " + e.getMessage());
+        }
     }
 
     public void readYear(Context ctx) {
-        //request
-        int year = ctx.pathParamAsClass("year", Integer.class).get();
+        try {
+            //request
+            int year = ctx.pathParamAsClass("year", Integer.class).get();
 
-        //DTO
-        List<BookDTO> bookDTO = service.readYear(year);
-        //response
-        ctx.status(200);
-        ctx.json(bookDTO, BookDTO.class);
+            //DTO
+            List<BookDTO> bookDTO = service.readYear(year);
+            //response
+            ctx.status(200);
+            ctx.json(bookDTO, BookDTO.class);
+        } catch (Exception e) {
+            System.out.println("An error occurred while fetching a books year: " + e.getMessage());
+        }
     }
 
     public void readAuthor(Context ctx) {
-        //request
-        String author = ctx.pathParamAsClass("author", String.class).get();
-        //DTO
-        List<BookDTO> bookDTO = service.readAuthor(author);
-        //response
-        ctx.status(200);
-        ctx.json(bookDTO, BookDTO.class);
+        try {
+            //request
+            String author = ctx.pathParamAsClass("author", String.class).get();
+            //DTO
+            List<BookDTO> bookDTO = service.readAuthor(author);
+            //response
+            ctx.status(200);
+            ctx.json(bookDTO, BookDTO.class);
+        } catch (Exception e) {
+            System.out.println("An error occurred while fetching a books author: " + e.getMessage());
+        }
     }
 
     @Override
     public void update(Context ctx) {
-        //request
-        int id = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
-        //DTO
-        BookDTO bookDTO = service.update(id, validateEntity(ctx));
-        //response
-        ctx.status(200);
-        ctx.json(bookDTO, BookDTO.class);
+        try {
+            //request
+            int id = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
+            //DTO
+            BookDTO bookDTO = service.update(id, validateEntity(ctx));
+            //response
+            ctx.status(200);
+            ctx.json(bookDTO, BookDTO.class);
+        } catch (Exception e) {
+            System.out.println("An error occurred while updating a books data: " + e.getMessage());
+        }
     }
 
     @Override
     public void delete(Context ctx) {
-        //request
-        int id = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
+        try {
+            //request
+            int id = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
 
-        service.delete(id);
-        //response
-        ctx.status(204);
+            service.delete(id);
+            //response
+            ctx.status(204);
+        } catch (Exception e) {
+            System.out.println("An error occurred trying to delete a books data: " + e.getMessage());
+        }
     }
 
     @Override
