@@ -9,6 +9,7 @@ import dat.security.entities.User;
 import dk.bugelhartmann.UserDTO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -87,7 +88,8 @@ class LendDAOTest {
     void delete() {
         LentBookDTO lentBookDTO = lendDAO.lendBook(new UserDTO(user.getUsername(),user.getPassword()), Long.valueOf(bookDTO1.getId()));
         lendDAO.delete(Long.valueOf(lentBookDTO.getId()));
-        LentBookDTO deletedLentBook = lendDAO.read(Long.valueOf(lentBookDTO.getId()));
-        assertNull(deletedLentBook);
+        assertThrows(EntityNotFoundException.class, () -> {
+            lendDAO.read(Long.valueOf(lentBookDTO.getId()));
+        });
     }
 }
