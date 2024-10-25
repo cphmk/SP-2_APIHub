@@ -1,5 +1,51 @@
-POST http://localhost:8080/books
+### A simple get request to the test endpoint. No need for login
+GET {{url}}/auth/test/
+
+### Create a new user - this one will only get a USER role by default
+POST {{url}}/auth/register/
+
+{
+    "username": "usermk",
+    "password": "test1234"
+}
+
+### Login to get token
+POST {{url}}/auth/login/
+
+{
+    "username": "usermk",
+    "password": "test1234"
+}
+
+> {%
+    client.global.set("jwt_token", response.body.token);
+%}
+
+### Test user role
+GET {{url}}/protected/user_demo/
+Accept: application/json
+Authorization: Bearer {{jwt_token}}
+
+### Test admin role
+GET {{url}}/protected/admin_demo/
+Accept: application/json
+Authorization: Bearer {{jwt_token}}
+
+### Add admin role to user
+POST {{url}}/auth/user/addrole/
+Accept: application/json
+Authorization: Bearer {{jwt_token}}
+
+{
+    "role": "ADMIN"
+}
+Accept: application/json
+Authorization: Bearer {{jwt_token}}
+
+### Add book
+POST {{url}}/books
 Content-Type: application/json
+Authorization: Bearer {{jwt_token}}
 
 {
   "title": "The Lord of the Rings",
@@ -18,19 +64,16 @@ Content-Type: application/json
   }
 }
 
-###
+### View book by id
+GET {{url}}/books/2
+Accept: application/json
 
-GET http://localhost:8080/books/2
-accept: application/json
+### View all books
+GET {{url}}/books
+Accept: application/json
 
-###
-
-GET http://localhost:8080/books
-accept: application/json
-
-###
-
-PUT http://localhost:8080/books/1
+### Update book by id
+PUT {{url}}/books/1
 Content-Type: application/json
 
 {
@@ -41,14 +84,13 @@ Content-Type: application/json
   "loanedOut": true
 }
 
+### Delete book by id
+DELETE {{url}}/books/1
+Accept: application/json
+Authorization: Bearer {{jwt_token}}
+
 ###
-
-DELETE http://localhost:8080/books/1
-accept: application/json
-
-###
-
-POST http://localhost:8080/users
+POST {{url}}/users
 Content-Type: application/json
 
 {
@@ -75,17 +117,17 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:8080/users/1
-accept: application/json
+GET {{url}}/users/1
+Accept: application/json
 
 ###
 
-GET http://localhost:8080/users
-accept: application/json
+GET {{url}}/users
+Accept: application/json
 
 ###
 
-PUT http://localhost:8080/users/1
+PUT {{url}}/users/1
 Content-Type: application/json
 
 {
@@ -96,12 +138,13 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:8080/users/1
-accept: application/json
+DELETE {{url}}/users/1
+Accept: application/json
+Authorization: Bearer {{jwt_token}}
 
 ###
 
-POST http://localhost:8080/employees
+POST {{url}}/employees
 Content-Type: application/json
 
 {
@@ -117,17 +160,17 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:8080/employees/1
-accept: application/json
+GET {{url}}/employees/1
+Accept: application/json
 
 ###
 
-GET http://localhost:8080/employees
-accept: application/json
+GET {{url}}/employees
+Accept: application/json
 
 ###
 
-PUT http://localhost:8080/employees/1
+PUT {{url}}/employees/1
 Content-Type: application/json
 
 {
@@ -139,12 +182,12 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:8080/employees/1
-accept: application/json
+DELETE {{url}}/employees/1
+Accept: application/json
 
 ###
 
-POST http://localhost:8080/libraries
+POST {{url}}/libraries
 Content-Type: application/json
 
 {
@@ -184,17 +227,17 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:8080/libraries/1
-accept: application/json
+GET {{url}}/libraries/1
+Accept: application/json
 
 ###
 
-GET http://localhost:8080/libraries
-accept: application/json
+GET {{url}}/libraries
+Accept: application/json
 
 ###
 
-PUT http://localhost:8080/libraries/1
+PUT {{url}}/libraries/1
 Content-Type: application/json
 
 {
@@ -204,7 +247,7 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:8080/libraries/1
-accept: application/json
+DELETE {{url}}/libraries/1
+Accept: application/json
 
 ###
