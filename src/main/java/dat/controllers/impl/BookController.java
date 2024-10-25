@@ -28,8 +28,15 @@ public class BookController implements IController<BookDTO, Integer> {
     public void create(Context ctx) {
         //request
         BookDTO jsonRequest = ctx.bodyAsClass(BookDTO.class);
+
         //DTO
         BookDTO bookDTO = service.create(jsonRequest);
+        if (bookDTO == null) {
+            ctx.status(400);
+            ctx.result("Invalid book data");
+            return;
+        }
+
         //response
         ctx.status(201);
         ctx.json(bookDTO, BookDTO.class);
