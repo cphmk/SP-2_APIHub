@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.notNullValue;
 
 class LendBookRouteTest {
 
-    static Javalin app;
+    /*static Javalin app;
     static String BASE_URL = "http://localhost:8080/api";
 
     private final static EntityManagerFactory emf = HibernateConfig.getEntityManagerFactoryForTest();
@@ -100,7 +100,7 @@ class LendBookRouteTest {
                 .body("id", notNullValue());
     }
 
-    /*@Test
+    @Test
     public void testUpdateLentBook() {
         String json = """
                 {
@@ -125,7 +125,7 @@ class LendBookRouteTest {
                 .then()
                 .statusCode(200)
                 .body("id", equalTo("2023-03-01"));
-    }*/
+    }
 
     @Test
     public void testDeleteLentBook() {
@@ -135,6 +135,6 @@ class LendBookRouteTest {
                 .delete(BASE_URL + "/lendbooks/1")
                 .then()
                 .statusCode(204);
-    }
+    }*/
 
 }

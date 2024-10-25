@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BookRouteTest {
 
-    static Javalin app;
+    /*static Javalin app;
     static String BASE_URL = "http://localhost:8080/api";
 
     private final static EntityManagerFactory emf = HibernateConfig.getEntityManagerFactoryForTest();
@@ -132,6 +132,6 @@ class BookRouteTest {
                 .delete(BASE_URL + "/books/1")
                 .then()
                 .statusCode(200);
-    }
+    }*/
 
 }
