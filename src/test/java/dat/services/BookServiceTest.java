@@ -1,9 +1,11 @@
 package dat.services;
 
+import dat.config.HibernateConfig;
 import dat.dtos.BookDTO;
 import dat.entities.Book;
 import dat.services.BookService;
 import dat.daos.BookDAO;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.junit.jupiter.api.*;
@@ -23,7 +25,7 @@ public class BookServiceTest {
     @BeforeAll
     public void setup() {
         // Connect to the PostgreSQL database running in Docker
-        emf = Persistence.createEntityManagerFactory("test-pu"); // Ensure "test-pu" is configured for PostgreSQL
+        emf = HibernateConfig.getEntityManagerFactory();
         bookDAO = BookDAO.getInstance(emf);
         bookService = BookService.getInstance(emf);
 
@@ -33,9 +35,12 @@ public class BookServiceTest {
     }
 
     @AfterAll
-    public void tearDown() {
-        // Optionally, clear the database or close the entity manager factory
-        emf.close();
+    void tearDown() {
+        try (EntityManager em = emf.createEntityManager()) {
+            em.getTransaction().begin();
+            em.createQuery("DELETE FROM Book").executeUpdate();
+            em.getTransaction().commit();
+        }
     }
 
     @Test

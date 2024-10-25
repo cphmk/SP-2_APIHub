@@ -1,5 +1,6 @@
 package dat.services;
 
+import dat.config.HibernateConfig;
 import dat.dtos.BookDTO;
 import dat.dtos.LentBookDTO;
 import dat.entities.Book;
@@ -7,6 +8,7 @@ import dat.entities.LentBook;
 import dat.services.LendService;
 import dat.daos.LendDAO;
 import dk.bugelhartmann.UserDTO;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.junit.jupiter.api.*;
@@ -27,7 +29,7 @@ public class LendServiceTest {
     @BeforeAll
     public void setup() {
         // Connect to the PostgreSQL database running in Docker
-        emf = Persistence.createEntityManagerFactory("test-pu"); // Ensure "test-pu" is configured for PostgreSQL
+        emf = HibernateConfig.getEntityManagerFactory();
         lendService = LendService.getInstance(emf);
 
         // Set up a user and book for lending
@@ -41,8 +43,14 @@ public class LendServiceTest {
 
     @AfterAll
     public void tearDown() {
-        // Optionally, clear the database or close the entity manager factory
-        emf.close();
+        try(EntityManager em = emf.createEntityManager()) {
+            em.getTransaction().begin();
+            em.createQuery("DELETE FROM LentBook").executeUpdate();
+            em.createQuery("DELETE FROM Book").executeUpdate();
+            em.createQuery("DELETE FROM User").executeUpdate();
+            em.createQuery("DELETE FROM Role").executeUpdate();
+            em.getTransaction().commit();
+        }
     }
 
     @Test
@@ -50,10 +58,10 @@ public class LendServiceTest {
         UserDTO user = new UserDTO("jane.doe", "Jane Doe");
         BookDTO book = new BookDTO(2, "Another Book", 2021, "Another Author", Book.Genre.NON_FICTION); // Create a new book DTO
 
-        LentBookDTO lentBook = lendService.lendBook(user, 2L); // Lend another book
+        LentBookDTO lentBook = lendService.lendBook(user, 2); // Lend another book
 
         assertThat(lentBook, is(notNullValue()));
-        assertThat(lentBook.getBook().getId(), is(2L)); // Assuming the book DTO is included in the lent book DTO
+        assertThat(lentBook.getBook().getId(), is(2)); // Assuming the book DTO is included in the lent book DTO
         assertThat(lentBook.getUser().getUsername(), is("jane.doe"));
     }
 
