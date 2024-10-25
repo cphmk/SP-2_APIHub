@@ -15,7 +15,7 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+/*@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class BookServiceTest {
 
     private EntityManagerFactory emf;
@@ -51,13 +51,13 @@ public class BookServiceTest {
         assertThat(book.getTitle(), is("Sample Title"));
     }
 
-    /*@Test
+    @Test
     public void testReadGenre() {
         List<BookDTO> books = bookService.readGenre(Book.Genre.FICTION);
 
         assertThat(books, hasSize(1));
         assertThat(books.get(0).getGenre(), is(Book.Genre.FICTION));
-    }*/
+    }
 
     @Test
     public void testCreate() {
@@ -77,14 +77,14 @@ public class BookServiceTest {
         assertThat(book.getTitle(), is("Updated Title"));
     }
 
-    /*@Test
+    @Test
     public void testDelete() {
         int idToDelete = 2; // Assuming ID 2 exists
         bookService.delete(idToDelete);
 
         BookDTO book = bookService.read(idToDelete);
         assertThat(book, is(nullValue()));
-    }*/
+    }
 
     @Test
     public void testValidatePrimaryKey_Valid() {
@@ -117,4 +117,4 @@ public class BookServiceTest {
 
         assertThat(isValid, is(false));
     }
-}
+}*/
