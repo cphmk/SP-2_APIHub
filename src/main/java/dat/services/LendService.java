@@ -27,6 +27,10 @@ public class LendService {
         return dao.lendBook(userDTO, bookId);
     }
 
+    public LentBookDTO readLend(long id) {
+        return dao.read(id);
+    }
+
     public List<LentBookDTO> readUserLends(UserDTO userDTO) {
         return dao.readUserLends(userDTO);
     }

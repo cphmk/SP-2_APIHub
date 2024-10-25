@@ -69,10 +69,11 @@ public class LendDAO implements IDAO<LentBookDTO, Long> {
             if (user == null) {
                 throw new EntityNotFoundException("User not found");
             }
-
+            System.out.println(user);
             TypedQuery<LentBook> query = em.createQuery("SELECT lb FROM LentBook lb WHERE lb.user = :user", LentBook.class);
             query.setParameter("user", user);
             List<LentBook> lentBooks = query.getResultList();
+            System.out.println(lentBooks);
             if (lentBooks.isEmpty()) {
                 throw new EntityNotFoundException("No lent books found");
             }
