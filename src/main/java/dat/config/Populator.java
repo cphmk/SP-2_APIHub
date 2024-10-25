@@ -20,11 +20,8 @@ public class Populator {
     static EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory();
 
     public static void main(String[] args) {
-        SecurityDAO securityDAO = new SecurityDAO(emf);
 
         Set<Book> books = getBooks();
-
-
 
         User user1 = new User("user1", "test1234");
         User user2 = new User("user2", "test1234");

@@ -22,10 +22,7 @@ public class UserRouteTest {
     static String BASE_URL = "http://localhost:8080/api";
 
     private final static EntityManagerFactory emf = HibernateConfig.getEntityManagerFactoryForTest();
-    private final static SecurityController securityController = SecurityController.getInstance();
-    private final static SecurityDAO securityDAO = new SecurityDAO(emf);
-    private static UserDTO userDTO, adminDTO;
-    private static String userToken, adminToken;
+
 
     @BeforeAll
     public static void setup() {
@@ -36,16 +33,6 @@ public class UserRouteTest {
     public void setUp() {
         //Fill up the database
         Populator.main(null);
-
-        try {
-            UserDTO verifiedUser = securityDAO.getVerifiedUser(userDTO.getUsername(), userDTO.getPassword());
-            UserDTO verifiedAdmin = securityDAO.getVerifiedUser(adminDTO.getUsername(), adminDTO.getPassword());
-            userToken = "Bearer " + securityController.createToken(verifiedUser);
-            adminToken = "Bearer " + securityController.createToken(verifiedAdmin);
-        }
-        catch (ValidationException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @AfterAll
