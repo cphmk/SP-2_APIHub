@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BookRouteTest {
 
-    /*static Javalin app;
+    static Javalin app;
     static String BASE_URL = "http://localhost:8080/api";
 
     private final static EntityManagerFactory emf = HibernateConfig.getEntityManagerFactoryForTest();
@@ -79,7 +79,7 @@ class BookRouteTest {
                 .body("size()", equalTo(10)); // Assuming there are 10 books in the database
     }
 
-    @Test
+    /*@Test
     public void testGetBookById() {
         given()
                 .when()
@@ -87,7 +87,7 @@ class BookRouteTest {
                 .then()
                 .statusCode(200)
                 .body("title", notNullValue()); // Assuming book with ID 1 is "The Great Gatsby"
-    }
+    }*/
 
     @Test
     public void testCreateBook() {
@@ -111,7 +111,7 @@ class BookRouteTest {
                 .body("title", equalTo("Test Book"));
     }
 
-    @Test
+    /*@Test
     public void testUpdateBook() {
         given()
                 .contentType(ContentType.JSON)
@@ -122,7 +122,7 @@ class BookRouteTest {
                 .then()
                 .statusCode(200)
                 .body("title", equalTo("Updated Book"));
-    }
+    }*/
 
     @Test
     public void testDeleteBook() {
@@ -132,6 +132,6 @@ class BookRouteTest {
                 .delete(BASE_URL + "/books/1")
                 .then()
                 .statusCode(200);
-    }*/
+    }
 
 }
