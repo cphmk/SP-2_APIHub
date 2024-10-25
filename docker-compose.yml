@@ -52,7 +52,7 @@ services:
       - WATCHTOWER_INTERVAL=60  # Interval in seconds (300s = 5 minutes)
       - WATCHTOWER_CLEANUP=true  # Optional: removes old images after update
       - WATCHTOWER_INCLUDE_STOPPED=true  # Optional: include stopped containers if needed
-    command: hotelAPI
+    command: --interval 300 libraryAPI
 
   caddy:
     image: caddy:latest
