@@ -3,9 +3,11 @@ package dat.services;
 import dat.config.HibernateConfig;
 import dat.daos.LendDAO;
 import dat.dtos.LentBookDTO;
+import dat.entities.LentBook;
 import dk.bugelhartmann.UserDTO;
 import jakarta.persistence.EntityManagerFactory;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class LendService {
@@ -21,8 +23,8 @@ public class LendService {
         return instance;
     }
 
-    public LentBookDTO lendBook(UserDTO userDTO, int bookId) {
-        return dao.lendBook(userDTO, (long) bookId);
+    public LentBookDTO lendBook(UserDTO userDTO, long bookId) {
+        return dao.lendBook(userDTO, bookId);
     }
 
     public List<LentBookDTO> readUserLends(UserDTO userDTO) {
@@ -37,8 +39,20 @@ public class LendService {
         dao.delete(id);
     }
 
-    public LentBookDTO updateLentBook(Integer integer, LentBookDTO lentBookDTO) { return dao.update(integer,lentBookDTO);}
+    public LentBookDTO updateLentBook(UserDTO userDTO, Long bookId, LentBookDTO lentBookDTO, String userRole) {
+        // Check if the user is an admin or normal user
+        if ("admin".equalsIgnoreCase(userRole)) {
+            return dao.update(bookId, lentBookDTO);  // Admins can update regardless of date
+        }
 
+        // For normal users, check that today’s date is before the lentDate
+        LentBook lentBook = dao.getLentBook(userDTO, bookId);
+        if (LocalDateTime.now().isAfter(lentBook.getLentDate())) {
+            throw new IllegalArgumentException("Loan cannot be updated after the lent date has been reached.");
+        }
+
+        return dao.updateOwnLoan(userDTO, bookId, lentBookDTO); // Normal users can update if before lentDate
+    }
 
 
 }
