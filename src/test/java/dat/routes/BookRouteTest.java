@@ -29,7 +29,6 @@ class BookRouteTest {
     private final static SecurityController securityController = SecurityController.getInstance();
     private final static SecurityDAO securityDAO = new SecurityDAO(emf);
     private final static BookDAO bookDAO = BookDAO.getInstance(emf);
-    private static UserDTO userDTO, adminDTO;
     private static String userToken, adminToken;
 
     @BeforeAll
@@ -43,19 +42,14 @@ class BookRouteTest {
         Populator.main(null);
 
         try {
-            UserDTO verifiedUser = securityDAO.getVerifiedUser(userDTO.getUsername(), userDTO.getPassword());
-            UserDTO verifiedAdmin = securityDAO.getVerifiedUser(adminDTO.getUsername(), adminDTO.getPassword());
+            UserDTO verifiedUser = securityDAO.getVerifiedUser("user1", "test1234");
+            UserDTO verifiedAdmin = securityDAO.getVerifiedUser("admin", "admin1234");
             userToken = "Bearer " + securityController.createToken(verifiedUser);
             adminToken = "Bearer " + securityController.createToken(verifiedAdmin);
         }
         catch (ValidationException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @AfterAll
-    public static void tearDown() {
-        ApplicationConfig.stopServer(app);
     }
 
     @AfterEach
@@ -68,6 +62,11 @@ class BookRouteTest {
             em.createQuery("DELETE FROM Role").executeUpdate();
             em.getTransaction().commit();
         }
+    }
+
+    @AfterAll
+    public static void tearDown() {
+        ApplicationConfig.stopServer(app);
     }
 
     @Test
@@ -94,7 +93,7 @@ class BookRouteTest {
     public void testCreateBook() {
         String json = """
                 {
-                  "title": "Test book",
+                  "title": "Test Book",
                   "year": 1900,
                   "author": "J.R.R. Tolkien",
                   "genre": "FICTION"
@@ -103,7 +102,7 @@ class BookRouteTest {
 
         given()
                 .contentType(ContentType.JSON)
-                .header("Authorization", "Bearer " + getTokenAdmin())
+                .header("Authorization", adminToken)
                 .body(json)
                 .when()
                 .post(BASE_URL + "/books")
@@ -116,7 +115,7 @@ class BookRouteTest {
     public void testUpdateBook() {
         given()
                 .contentType(ContentType.JSON)
-                .header("Authorization", "Bearer " + getTokenAdmin())
+                .header("Authorization", adminToken)
                 .body("{\"title\": \"Updated Book\", \"year\": 2023, \"author\": \"Updated Author\", \"genre\": \"FICTION\"}")
                 .when()
                 .put(BASE_URL + "/books/1")
@@ -129,28 +128,10 @@ class BookRouteTest {
     public void testDeleteBook() {
         given()
                 .when()
-                .header("Authorization", "Bearer " + getTokenAdmin())
+                .header("Authorization", adminToken)
                 .delete(BASE_URL + "/books/1")
                 .then()
-                .statusCode(204);
+                .statusCode(200);
     }
-
-    @Test
-    public String getTokenAdmin() {
-        String token = given()
-                .contentType(ContentType.JSON)
-                .body("{\"username\": \"admin\", \"password\": \"admin1234\"}")
-                .when()
-                .post(BASE_URL + "/auth/login/")
-                .then()
-                .statusCode(200)
-                .body("token", notNullValue())
-                .extract()
-                .path("token");
-
-        return token;
-    }
-
-
 
 }

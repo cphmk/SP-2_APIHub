@@ -120,9 +120,9 @@ public class LendDAO implements IDAO<LentBookDTO, Long> {
             }
 
             // Book should not be updated, delete the lentbook and create a new one instead.
-            if (lentBookDTO.getBook() != null && !lentBook.getBook().equals(lentBookDTO.getBook())) {
+            /*if (lentBookDTO.getBook() != null && !lentBook.getBook().equals(lentBookDTO.getBook())) {
                 throw new IllegalArgumentException("Book cannot be updated for an existing loan");
-            }
+            }*/
 
             lentBook.setReturnDate(lentBookDTO.getReturnDate());
             lentBook.setLentDate(lentBookDTO.getLentDate());

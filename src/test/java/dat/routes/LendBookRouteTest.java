@@ -9,14 +9,16 @@ import dat.security.daos.SecurityDAO;
 import dat.security.exceptions.ValidationException;
 import dk.bugelhartmann.UserDTO;
 import io.javalin.Javalin;
+import io.restassured.http.ContentType;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.*;
 
-public class LendBookRouteTest {
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
+
+class LendBookRouteTest {
 
     static Javalin app;
     static String BASE_URL = "http://localhost:8080/api";
@@ -25,33 +27,27 @@ public class LendBookRouteTest {
     private final static SecurityController securityController = SecurityController.getInstance();
     private final static SecurityDAO securityDAO = new SecurityDAO(emf);
     private final static LendDAO lendDAO = LendDAO.getInstance(emf);
-    private static UserDTO userDTO, adminDTO;
     private static String userToken, adminToken;
 
     @BeforeAll
     public static void setup() {
         app = ApplicationConfig.startServer(8080);
-
-        try {
-            UserDTO verifiedUser = securityDAO.getVerifiedUser(userDTO.getUsername(), userDTO.getPassword());
-            UserDTO verifiedAdmin = securityDAO.getVerifiedUser(adminDTO.getUsername(), adminDTO.getPassword());
-            userToken = "Bearer " + securityController.createToken(verifiedUser);
-            adminToken = "Bearer " + securityController.createToken(verifiedAdmin);
-        }
-        catch (ValidationException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @BeforeEach
     public void setUp() {
         //Fill up the database
         Populator.main(null);
-    }
 
-    @AfterAll
-    public static void tearDown() {
-        ApplicationConfig.stopServer(app);
+        try {
+            UserDTO verifiedUser = securityDAO.getVerifiedUser("user1", "test1234");
+            UserDTO verifiedAdmin = securityDAO.getVerifiedUser("admin", "admin1234");
+            userToken = "Bearer " + securityController.createToken(verifiedUser);
+            adminToken = "Bearer " + securityController.createToken(verifiedAdmin);
+        }
+        catch (ValidationException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @AfterEach
@@ -64,6 +60,76 @@ public class LendBookRouteTest {
             em.createQuery("DELETE FROM Role").executeUpdate();
             em.getTransaction().commit();
         }
+    }
+
+    @AfterAll
+    public static void tearDown() {
+        ApplicationConfig.stopServer(app);
+    }
+
+    @Test
+    public void testGetAllLentBooks() {
+        given()
+                .when()
+                .header("Authorization", adminToken)
+                .get(BASE_URL + "/lendbooks/")
+                .then()
+                .statusCode(200)
+                .body("size()", equalTo(8)); // Assuming there are 10 lent books in the database
+    }
+
+    @Test
+    public void testGetLentBookById() {
+        given()
+                .when()
+                .header("Authorization", adminToken)
+                .get(BASE_URL + "/lendbooks/1")
+                .then()
+                .statusCode(200)
+                .body("id", notNullValue());
+    }
+
+    @Test
+    public void testCreateLentBook() {
+        given()
+                .header("Authorization", userToken)
+                .when()
+                .post(BASE_URL + "/lendbooks/1")
+                .then()
+                .statusCode(201)
+                .body("bookId", equalTo(1));
+    }
+
+    @Test
+    public void testUpdateLentBook() {
+        String json = """
+                {
+                  "bookId": 1,
+                  "userId": 1,
+                  "lendDate": "2023-01-01",
+                  "returnDate": "2023-02-01"
+                }
+                """;
+
+        given()
+                .contentType(ContentType.JSON)
+                .header("Authorization", adminToken)
+                .body(json)
+                .when()
+                .put(BASE_URL + "/lendbooks/1")
+                .then()
+                .statusCode(200)
+                .body("returnDate", equalTo("2023-03-01"));
+    }
+
+    @Test
+    public void testDeleteLentBook() {
+        given()
+                .when()
+                .header("Authorization", adminToken)
+                .delete(BASE_URL + "/lendbooks/1")
+                .then()
+                .statusCode(204);
     }
 
 }
