@@ -54,12 +54,28 @@ Authorization: Bearer {{jwt_token}}
   "genre": "FICTION"
 }
 
+### View all books
+GET {{url}}/books
+Accept: application/json
+
 ### View book by id
 GET {{url}}/books/1
 Accept: application/json
 
-### View all books
-GET {{url}}/books
+### View book by genre
+GET {{url}}/books/genre/FICTION
+Accept: application/json
+
+### View book by title
+GET {{url}}/books/title/The Lord of the Rings
+Accept: application/json
+
+### View book by release year
+GET {{url}}/books/year/1954
+Accept: application/json
+
+### View book by author
+GET {{url}}/books/author/J.R.R. Tolkien
 Accept: application/json
 
 ### Update book by id
@@ -78,166 +94,3 @@ Content-Type: application/json
 DELETE {{url}}/books/1
 Accept: application/json
 Authorization: Bearer {{jwt_token}}
-
-###
-POST {{url}}/users
-Content-Type: application/json
-
-{
-  "name": "John Doe",
-  "password": "password",
-  "userRole": "ADMIN",
-  "books": [
-    {
-      "title": "The Lord of the Rings",
-      "year": 1954,
-      "author": "J.R.R. Tolkien",
-      "genre": "FICTION",
-      "loanedOut": true
-    },
-    {
-      "title": "The Hobbit",
-      "year": 1937,
-      "author": "J.R.R. Tolkien",
-      "genre": "FANTASY",
-      "loanedOut": true
-    }
-  ]
-}
-
-###
-
-GET {{url}}/users/1
-Accept: application/json
-
-###
-
-GET {{url}}/users
-Accept: application/json
-
-###
-
-PUT {{url}}/users/1
-Content-Type: application/json
-
-{
-  "name": "Jane Doe",
-  "password": "password",
-  "userRole": "USER"
-}
-
-###
-
-DELETE {{url}}/users/1
-Accept: application/json
-Authorization: Bearer {{jwt_token}}
-
-###
-
-POST {{url}}/employees
-Content-Type: application/json
-
-{
-  "employeeName": "Santa Claus",
-  "employeeAge": "65",
-  "employeeGender": "MALE",
-  "employeeEmail": "email@email.com",
-    "libraries": {
-        "libraryName": "KBH Bibliotek",
-        "libraryAddress": "Vingårdstræde 6, 1070 København K"
-    }
-}
-
-###
-
-GET {{url}}/employees/1
-Accept: application/json
-
-###
-
-GET {{url}}/employees
-Accept: application/json
-
-###
-
-PUT {{url}}/employees/1
-Content-Type: application/json
-
-{
-  "employeeName": "Jack Skellington",
-  "employeeAge": "666",
-  "employeeGender": "MALE",
-  "employeeEmail": "email@email.com"
-}
-
-###
-
-DELETE {{url}}/employees/1
-Accept: application/json
-
-###
-
-POST {{url}}/libraries
-Content-Type: application/json
-
-{
-  "libraryName": "KBH Bibliotek",
-  "libraryAddress": "Vingårdstræde 6, 1070 København K",
-  "books": [
-    {
-      "title": "The Lord of the Rings",
-      "year": 1954,
-      "author": "J.R.R. Tolkien",
-      "genre": "FICTION",
-      "loanedOut": false
-    },
-    {
-      "title": "The Hobbit",
-      "year": 1937,
-      "author": "J.R.R. Tolkien",
-      "genre": "FANTASY",
-      "loanedOut": true
-    }
-  ],
-  "employees": [
-    {
-      "employeeName": "Jack Skellington",
-      "employeeAge": "666",
-      "employeeGender": "MALE",
-      "employeeEmail": "email@email.com"
-    },
-    {
-      "employeeName": "Santa Claus",
-      "employeeAge": "65",
-      "employeeGender": "MALE",
-      "employeeEmail": "email@email.com"
-    }
-  ]
-}
-
-###
-
-GET {{url}}/libraries/1
-Accept: application/json
-
-###
-
-GET {{url}}/libraries
-Accept: application/json
-
-###
-
-PUT {{url}}/libraries/1
-Content-Type: application/json
-
-{
-  "libraryName": "Clauses Bibliotek",
-  "libraryAddress": "I Danmark et sted"
-}
-
-###
-
-DELETE {{url}}/libraries/1
-Accept: application/json
-
-###
