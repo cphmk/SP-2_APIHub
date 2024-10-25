@@ -39,9 +39,11 @@ public class LentBook {
     @Column
     private LocalDateTime returnDate;
 
-    public LentBook(User user, Book book) {
+    public LentBook(User user, Book book, LocalDateTime lentDate, LocalDateTime returnDate) {
         this.user = user;
         this.book = book;
+        this.lentDate = lentDate;
+        this.returnDate = returnDate;
     }
 
     public LentBook(LentBookDTO lentBookDTO) {
@@ -49,6 +51,7 @@ public class LentBook {
         this.book = new Book(lentBookDTO.getBook());
 
     }
+
 
     @PrePersist
     public void prePersist() {
