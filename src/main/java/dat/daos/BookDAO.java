@@ -37,57 +37,36 @@ public class BookDAO implements IDAO<BookDTO, Integer> {
 
     public List<BookDTO> readGenre(Book.Genre genre) {
         try (EntityManager em = emf.createEntityManager()) {
-            TypedQuery<Book> query = em.createQuery("SELECT new dat.dtos.BookDTO(b) FROM Book b WHERE b.genre = :genre", Book.class);
+            TypedQuery<BookDTO> query = em.createQuery("SELECT new dat.dtos.BookDTO(b) FROM Book b WHERE b.genre = :genre", BookDTO.class);
             query.setParameter("genre", genre);
 
-            List<Book> books = query.getResultList();
-
-            List<BookDTO> bookDTOS = new ArrayDeque<>();
-
-            for (Book book : books) {
-                bookDTOS.add(new BookDTO(book));
-            }
-            return bookDTOS;
+            return query.getResultList();
         }
     }
 
     public BookDTO readTitle(String title) {
         try (EntityManager em = emf.createEntityManager()) {
-            TypedQuery<Book> query = em.createQuery("SELECT new dat.dtos.BookDTO(b) FROM Book b WHERE b.title = :title", Book.class);
+            TypedQuery<BookDTO> query = em.createQuery("SELECT new dat.dtos.BookDTO(b) FROM Book b WHERE b.title = :title", BookDTO.class);
             query.setParameter("title", title);
-            return new BookDTO(query.getSingleResult());
+            return query.getSingleResult();
         }
     }
 
     public List<BookDTO> readYear(Integer year) {
         try (EntityManager em = emf.createEntityManager()) {
-            TypedQuery<Book> query = em.createQuery("SELECT new dat.dtos.BookDTO(b) FROM Book b WHERE b.year = :year", Book.class);
+            TypedQuery<BookDTO> query = em.createQuery("SELECT new dat.dtos.BookDTO(b) FROM Book b WHERE b.year = :year", BookDTO.class);
             query.setParameter("year", year);
 
-            List<Book> books = query.getResultList();
-
-            List<BookDTO> bookDTOS = new ArrayDeque<>();
-
-            for (Book book : books) {
-                bookDTOS.add(new BookDTO(book));
-            }
-            return bookDTOS;
+            return query.getResultList();
         }
     }
 
     public List<BookDTO> readAuthor(String author) {
         try (EntityManager em = emf.createEntityManager()) {
-            TypedQuery<Book> query = em.createQuery("SELECT new dat.dtos.BookDTO(b) FROM Book b WHERE b.author = :author", Book.class);
+            TypedQuery<BookDTO> query = em.createQuery("SELECT new dat.dtos.BookDTO(b) FROM Book b WHERE b.author = :author", BookDTO.class);
             query.setParameter("author", author);
 
-            List<Book> books = query.getResultList();
-
-            List<BookDTO> bookDTOS = new ArrayDeque<>();
-
-            for (Book book : books) {
-                bookDTOS.add(new BookDTO(book));
-            }
-            return bookDTOS;
+            return query.getResultList();
         }
     }
 

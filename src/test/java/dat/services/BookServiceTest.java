@@ -15,7 +15,7 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-/*@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class BookServiceTest {
 
     private EntityManagerFactory emf;
@@ -117,4 +117,4 @@ public class BookServiceTest {
 
         assertThat(isValid, is(false));
     }
-}*/
+}

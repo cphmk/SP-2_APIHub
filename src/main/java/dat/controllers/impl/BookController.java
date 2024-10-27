@@ -99,6 +99,7 @@ public class BookController implements IController<BookDTO, Integer> {
         try {
             //request
             String title = ctx.pathParamAsClass("title", String.class).get();
+            System.out.println(title);
             //DTO
             BookDTO bookDTO = service.readTitle(title);
             //response
