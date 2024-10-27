@@ -81,6 +81,7 @@ Accept: application/json
 ### Update book by id
 PUT {{url}}/books/1
 Content-Type: application/json
+Authorization: Bearer {{jwt_token}}
 
 {
   "title": "The Hobbit",

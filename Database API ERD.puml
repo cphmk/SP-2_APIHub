@@ -6,40 +6,27 @@ entity "User" as user {
     password : String
 }
 
+
+
 entity "Book" as book {
     +id : Integer
     title : String
     year : Integer
-    loaned out : Boolean
-    loan time : LocalDateTime
+    author : String
     genre : Genre[{genre}]
 
 }
 
-entity "Genre" as genre {
+entity "LentBook" as lentbook {
     +id : Integer
-    genre : String
-}
-
-entity "Library" as library {
-    +id : Integer
-    name : String
-    address : String
-    employees : Employee[{employee}]
-}
-
-entity "Employee" as employee {
-    +id : Integer
-    age : Integer
-    name : String
-    gender : String{[M, F]}
-    email : String
+    user : User
+    book : Book
+    lentDate : LocalDateTime
+    returnDate : LocalDateTime
 }
 
 ' Relationships
-user "1" --o "0..*" book
-book "0..*" --o "0..*" genre
-library "1" --o "0..*" employee
-library "1" --o "0..*" book
+user "1" --o "0..*" lentbook
+book "1" --o "0..*" lentbook
 
 @enduml
