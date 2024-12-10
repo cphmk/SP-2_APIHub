@@ -37,6 +37,7 @@ public class BookDAO implements IDAO<BookDTO, Integer> {
 
     public List<BookDTO> readGenre(Book.Genre genre) {
         try (EntityManager em = emf.createEntityManager()) {
+            System.out.println("Genre: " + genre);
             TypedQuery<BookDTO> query = em.createQuery("SELECT new dat.dtos.BookDTO(b) FROM Book b WHERE b.genre = :genre", BookDTO.class);
             query.setParameter("genre", genre);
 
