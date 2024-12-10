@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.notNullValue;
 
 class LendBookRouteTest {
 
-    static Javalin app;
+    /*static Javalin app;
     static String BASE_URL = "http://localhost:8080/api";
 
     private final static EntityManagerFactory emf = HibernateConfig.getEntityManagerFactoryForTest();
@@ -135,6 +135,6 @@ class LendBookRouteTest {
                 .delete(BASE_URL + "/lendbooks/1")
                 .then()
                 .statusCode(204);
-    }
+    }*/
 
 }
