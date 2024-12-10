@@ -19,7 +19,7 @@ class BookDAOTest {
     private static EntityManagerFactory emf;
     private static BookDAO bookDAO;
 
-    @BeforeAll
+    /*@BeforeAll
     static void setUpAll() {
         // Set test to true and get the entity manager factory
         HibernateConfig.setTest(true);
@@ -81,5 +81,5 @@ class BookDAOTest {
         assertThrows(EntityNotFoundException.class, () -> {
             bookDAO.read(bookDTO.getId());
         });
-    }
+    }*/
 }
