@@ -2,7 +2,9 @@
 name: CI/CD WORKFLOW
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
+      - Developer
 
 jobs:
   build:
