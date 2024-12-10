@@ -2,8 +2,8 @@ package dat.entities;
 
 
 import dat.dtos.LentBookDTO;
-import dk.bugelhartmann.UserDTO;
 import jakarta.persistence.*;
+import dk.bugelhartmann.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

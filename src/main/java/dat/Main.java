@@ -6,7 +6,7 @@ import dat.config.Populator;
 public class Main {
 
     public static void main(String[] args) {
-        ApplicationConfig.startServer(8080);
+        ApplicationConfig.startServer(7070);
         Populator.main(args);
     }
 }

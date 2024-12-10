@@ -11,26 +11,26 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: library  # Ensure the database matches the API's needs
     volumes:
-      - ./data:/var/lib/postgresql/data/
+      - ./data:/var/lib/postgresql/data
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
       timeout: 5s
       retries: 5
-      # start_period: 10s  # Remove or comment this line if unsupported
 
   libraryAPI:
-    image: cphmk/library_api:latest  # Corrected line
+    image: cphmk/library_api:latest
     container_name: libraryAPI
     ports:
       - "8080:8080"
     environment:
       - DEPLOYED=true
-      - CONNECTION_STR=jdbc:postgresql://db:5432/
+      - CONNECTION_STR=jdbc:postgresql://db:5432/library  # Specify database name
       - DB_USERNAME=postgres
       - DB_PASSWORD=postgres
       - DB_NAME=library
@@ -47,11 +47,11 @@ services:
     container_name: watchtower
     restart: unless-stopped
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock  # Watchtower needs access to the Docker socket
+      - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      - WATCHTOWER_INTERVAL=60  # Interval in seconds (300s = 5 minutes)
-      - WATCHTOWER_CLEANUP=true  # Optional: removes old images after update
-      - WATCHTOWER_INCLUDE_STOPPED=true  # Optional: include stopped containers if needed
+      - WATCHTOWER_INTERVAL=300
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_INCLUDE_STOPPED=true
     command: --interval 300 libraryAPI
 
   caddy:
@@ -70,14 +70,12 @@ services:
 
 networks:
   backend:
-    name: backend
-    internal: false # in production, it should be true if you don't want to expose this network to the outside world
     driver: bridge
   frontend:
-    name: frontend
     driver: bridge
 
 volumes:
   caddy_data:
   caddy_config:
+
 
