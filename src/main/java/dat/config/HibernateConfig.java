@@ -89,19 +89,12 @@ public class HibernateConfig {
     }
 
     private static Properties setDeployedProperties(Properties props) {
-        String dbName = System.getenv("DB_NAME"); // This will be "library"
-        String connectionStr = System.getenv("CONNECTION_STR"); // This will be "jdbc:postgresql://db:5432/"
-
-        // Correctly append the database name without duplication
-        if (!connectionStr.endsWith("/")) {
-            connectionStr += "/";
-        }
-        props.setProperty("hibernate.connection.url", connectionStr + dbName);
+        String DBName = System.getenv("DB_NAME");
+        props.setProperty("hibernate.connection.url", System.getenv("CONNECTION_STR") + DBName);
         props.setProperty("hibernate.connection.username", System.getenv("DB_USERNAME"));
         props.setProperty("hibernate.connection.password", System.getenv("DB_PASSWORD"));
         return props;
     }
-
 
     private static Properties setDevProperties(Properties props) {
         String DBName = Utils.getPropertyValue("DB_NAME", "config.properties");
