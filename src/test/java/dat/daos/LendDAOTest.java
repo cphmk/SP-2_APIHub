@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LendDAOTest {
 
-    /*private static EntityManagerFactory emf;
+    private static EntityManagerFactory emf;
     private static LendDAO lendDAO;
     private static BookDAO bookDAO;
     private static SecurityDAO securityDAO;
@@ -91,5 +91,5 @@ class LendDAOTest {
         assertThrows(EntityNotFoundException.class, () -> {
             lendDAO.read(Long.valueOf(lentBookDTO.getId()));
         });
-    }*/
+    }
 }
