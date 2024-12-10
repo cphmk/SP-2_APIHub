@@ -18,7 +18,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
 public class UserRouteTest {
-    /*static Javalin app;
+    static Javalin app;
     static String BASE_URL = "http://localhost:8080/api";
 
     private final static EntityManagerFactory emf = HibernateConfig.getEntityManagerFactoryForTest();
@@ -84,6 +84,6 @@ public class UserRouteTest {
                 .then()
                 .statusCode(200)
                 .body("token", notNullValue());
-    }*/
+    }
 
 }

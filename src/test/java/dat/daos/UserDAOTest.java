@@ -21,7 +21,7 @@ import static org.testcontainers.shaded.org.hamcrest.Matchers.hasItem;
 
 class UserDAOTest {
 
-    /*private static EntityManagerFactory emf;
+    private static EntityManagerFactory emf;
     private static SecurityDAO securityDAO;
 
     @BeforeAll
@@ -66,7 +66,7 @@ class UserDAOTest {
         assertEquals("testuser", readUser.getUsername());
     }
 
-    @Test
+    /*@Test
     void addRole() {
         User user = securityDAO.createUser("testuser", "testpassword");
         User userAdmin = securityDAO.addRole(new UserDTO(user.getUsername(), user.getPassword()), "ADMIN");
