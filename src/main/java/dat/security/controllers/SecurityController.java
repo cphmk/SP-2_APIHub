@@ -56,6 +56,7 @@ public class SecurityController implements ISecurityController {
             try {
                 UserDTO user = ctx.bodyAsClass(UserDTO.class);
                 UserDTO verifiedUser = securityDAO.getVerifiedUser(user.getUsername(), user.getPassword());
+                System.out.println("Verified user: " + verifiedUser.getUsername() + ", " + verifiedUser.getPassword());
                 String token = createToken(verifiedUser);
 
                 ctx.status(200).json(returnObject
