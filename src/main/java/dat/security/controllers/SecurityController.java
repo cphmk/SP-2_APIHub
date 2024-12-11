@@ -56,6 +56,7 @@ public class SecurityController implements ISecurityController {
             try {
                 UserDTO user = ctx.bodyAsClass(UserDTO.class);
                 UserDTO verifiedUser = securityDAO.getVerifiedUser(user.getUsername(), user.getPassword());
+                System.out.println("Verified user: " + verifiedUser.getUsername() + ", " + verifiedUser.getPassword());
                 String token = createToken(verifiedUser);
 
                 ctx.status(200).json(returnObject
@@ -150,6 +151,7 @@ public class SecurityController implements ISecurityController {
                 TOKEN_EXPIRE_TIME = Utils.getPropertyValue("TOKEN_EXPIRE_TIME", "config.properties");
                 SECRET_KEY = Utils.getPropertyValue("SECRET_KEY", "config.properties");
             }
+            System.out.println("Creating token: username: " + user.getUsername() + " password: " + user.getPassword());
             return tokenSecurity.createToken(user, ISSUER, TOKEN_EXPIRE_TIME, SECRET_KEY);
         } catch (Exception e) {
             e.printStackTrace();
