@@ -195,4 +195,21 @@ public class SecurityController implements ISecurityController {
         };
     }
 
+    public Handler getInfo() {
+        return (ctx) -> {
+            ObjectNode returnObject = objectMapper.createObjectNode();
+            try {
+                String token = ctx.bodyAsClass(ObjectNode.class).get("token").asText();
+                UserDTO user = verifyToken(token);
+                returnObject.put("username", user.getUsername());
+                returnObject.putPOJO("roles", user.getRoles());
+                ctx.status(200).json(returnObject);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                ctx.status(404).json("{\"msg\": \"Something went wrong, whoops\"}");
+            }
+
+        };
+    }
+
 }
