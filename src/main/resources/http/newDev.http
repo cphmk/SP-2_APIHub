@@ -1,5 +1,5 @@
 ### Make http request to login with authorization header
-POST http://localhost:8080/api/auth/login
+POST {{url}}/auth/login
 Content-Type: application/json
 
 {
@@ -12,7 +12,7 @@ Content-Type: application/json
 %}
 
 ### Make http request to get user info
-GET http://localhost:8080/api/info/user
+GET {{url}}/info/user
 Content-Type: application/json
 
 {
@@ -20,7 +20,7 @@ Content-Type: application/json
 }
 
 ### Make http request to login
-POST https://library.clausjoergensen.dk/api/auth/login
+POST {{url}}/auth/login
 Content-Type: application/json
 
 {

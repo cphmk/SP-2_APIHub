@@ -165,6 +165,7 @@ public class SecurityController implements ISecurityController {
         String SECRET = IS_DEPLOYED ? System.getenv("SECRET_KEY") : Utils.getPropertyValue("SECRET_KEY", "config.properties");
 
         try {
+            System.out.println("Verifying token: " + token);
             if (tokenSecurity.tokenIsValid(token, SECRET) && tokenSecurity.tokenNotExpired(token)) {
                 return tokenSecurity.getUserWithRolesFromToken(token);
             } else {
