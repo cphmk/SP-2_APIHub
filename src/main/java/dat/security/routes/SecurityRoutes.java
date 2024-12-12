@@ -34,4 +34,12 @@ public class SecurityRoutes {
             });
         };
     }
+
+    public static EndpointGroup getUserRoutes() {
+        return ()->{
+            path("/info", ()->{
+                get("/user", securityController.getInfo(), Role.ANYONE);
+            });
+        };
+    }
 }

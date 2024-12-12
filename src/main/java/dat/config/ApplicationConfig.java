@@ -31,6 +31,7 @@ public class ApplicationConfig {
         config.router.apiBuilder(routes.getRoutes());
         config.router.apiBuilder(SecurityRoutes.getSecuredRoutes());
         config.router.apiBuilder(SecurityRoutes.getSecurityRoutes());
+        config.router.apiBuilder(SecurityRoutes.getUserRoutes());
     }
 
     public static Javalin startServer(int port) {
