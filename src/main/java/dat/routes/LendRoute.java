@@ -17,10 +17,10 @@ public class LendRoute {
             post("/{id}", lendController::create, Role.USER);
             //Get all lendings
             get("/", lendController::readAll, Role.ADMIN);
+            //Get the user's lending
+            get("/user", lendController::readUserLends, Role.USER);
             //Get a lending with id
             get("/{id}", lendController::read, Role.ADMIN);
-            //Get the user's lending
-            get("/user/", lendController::readUserLends, Role.USER);
             //Update a lending with id
             put("/{id}", lendController::update, Role.ADMIN);
             //Delete a lending with id
